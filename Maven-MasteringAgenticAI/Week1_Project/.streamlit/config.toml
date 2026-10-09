@@ -1,0 +1,10 @@
+[theme]
+# Accent only; light/dark base follows the viewer's Streamlit setting.
+primaryColor = "#2a78d6"
+
+[server]
+# Serves ./static/osm_basemap_style.json at /app/static/ for the Trip Explorer basemap.
+enableStaticServing = true
+
+[browser]
+gatherUsageStats = false

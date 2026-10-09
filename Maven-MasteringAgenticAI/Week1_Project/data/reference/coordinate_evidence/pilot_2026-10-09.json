@@ -1,0 +1,959 @@
+{
+  "_note": "Raw responses from the Phase 2A pilot lookup (name-only queries, no booking data). OSM data © OpenStreetMap contributors, ODbL. Wikidata CC0.",
+  "nominatim_and_wikidata": {
+    "Barakhamba Road": {
+      "retrieved_utc": "2026-10-09T16:35:41+00:00",
+      "nominatim": {
+        "query": "Barakhamba Road, New Delhi",
+        "url": "https://nominatim.openstreetmap.org/search?q=Barakhamba+Road%2C+New+Delhi&format=jsonv2&limit=3&countrycodes=in",
+        "results": [
+          {
+            "place_id": 244448909,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "way",
+            "osm_id": 523568284,
+            "lat": "28.6274728",
+            "lon": "77.2290451",
+            "category": "highway",
+            "type": "secondary",
+            "place_rank": 26,
+            "importance": 0.05341081483176925,
+            "addresstype": "road",
+            "name": "Barakhamba Road",
+            "display_name": "Barakhamba Road, Connaught Place, New Delhi, Delhi, 110001, India",
+            "boundingbox": [
+              "28.6260271",
+              "28.6289144",
+              "77.2264549",
+              "77.2316293"
+            ]
+          },
+          {
+            "place_id": 244179900,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "way",
+            "osm_id": 80499778,
+            "lat": "28.6300438",
+            "lon": "77.2243649",
+            "category": "highway",
+            "type": "secondary",
+            "place_rank": 26,
+            "importance": 0.05341081483176925,
+            "addresstype": "road",
+            "name": "Barakhamba Road",
+            "display_name": "Barakhamba Road, Kashmiri Market, Connaught Place, New Delhi, Delhi, 110001, India",
+            "boundingbox": [
+              "28.6288475",
+              "28.6310656",
+              "77.2222690",
+              "77.2264166"
+            ]
+          },
+          {
+            "place_id": 244503609,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "way",
+            "osm_id": 1076627689,
+            "lat": "28.6263693",
+            "lon": "77.2306802",
+            "category": "highway",
+            "type": "secondary",
+            "place_rank": 26,
+            "importance": 0.05341081483176925,
+            "addresstype": "road",
+            "name": "Barakhamba Road",
+            "display_name": "Barakhamba Road, Connaught Place, New Delhi, Delhi, 020626, India",
+            "boundingbox": [
+              "28.6258484",
+              "28.6268530",
+              "77.2298482",
+              "77.2314813"
+            ]
+          }
+        ]
+      },
+      "wikidata": {
+        "query": "Barakhamba Road",
+        "url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Barakhamba+Road&language=en&format=json&limit=5",
+        "candidates": [
+          {
+            "id": "Q125567805",
+            "label": "Barakhamba Road",
+            "description": "road in New Delhi",
+            "coordinates": [
+              28.6283474140903,
+              77.22742510278657
+            ]
+          },
+          {
+            "id": "Q4858265",
+            "label": "Barakhamba Road metro station",
+            "description": "metro station in Delhi, India",
+            "coordinates": [
+              28.62998,
+              77.224526
+            ]
+          }
+        ]
+      }
+    },
+    "Saket": {
+      "retrieved_utc": "2026-10-09T16:35:47+00:00",
+      "nominatim": {
+        "query": "Saket, New Delhi",
+        "url": "https://nominatim.openstreetmap.org/search?q=Saket%2C+New+Delhi&format=jsonv2&limit=3&countrycodes=in",
+        "results": [
+          {
+            "place_id": 242228356,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "way",
+            "osm_id": 239638765,
+            "lat": "28.5234897",
+            "lon": "77.2096310",
+            "category": "amenity",
+            "type": "school",
+            "place_rank": 30,
+            "importance": 5.58350499732512e-05,
+            "addresstype": "amenity",
+            "name": "Green Field School",
+            "display_name": "Green Field School, Saket Road, Press Enclave, Saket, South, New Delhi, South Delhi, Delhi, 110017, India",
+            "boundingbox": [
+              "28.5229209",
+              "28.5240742",
+              "77.2087614",
+              "77.2105881"
+            ]
+          },
+          {
+            "place_id": 244453158,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "node",
+            "osm_id": 12825691133,
+            "lat": "28.5279835",
+            "lon": "77.2174969",
+            "category": "tourism",
+            "type": "hotel",
+            "place_rank": 30,
+            "importance": 5.936446173795708e-05,
+            "addresstype": "tourism",
+            "name": "Hilton Garden Inn New Delhi Saket",
+            "display_name": "Hilton Garden Inn New Delhi Saket, Saket District Centre, Saket, South, New Delhi, South Delhi, Delhi, 110017, India",
+            "boundingbox": [
+              "28.5279335",
+              "28.5280335",
+              "77.2174469",
+              "77.2175469"
+            ]
+          },
+          {
+            "place_id": 246980356,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "node",
+            "osm_id": 6888422590,
+            "lat": "28.5274543",
+            "lon": "77.2119261",
+            "category": "healthcare",
+            "type": "blood_donation",
+            "place_rank": 30,
+            "importance": 5.936446173795708e-05,
+            "addresstype": "healthcare",
+            "name": "Max Super Specialty Hospital Blood Bank, Saket",
+            "display_name": "Max Super Specialty Hospital Blood Bank, Saket, Max Hospital Internal Road, Press Enclave, Saket, South, New Delhi, South Delhi, Delhi, 110017, India",
+            "boundingbox": [
+              "28.5274043",
+              "28.5275043",
+              "77.2118761",
+              "77.2119761"
+            ]
+          }
+        ]
+      },
+      "wikidata": {
+        "query": "Saket Delhi",
+        "url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Saket+Delhi&language=en&format=json&limit=5",
+        "candidates": []
+      }
+    },
+    "Pragati Maidan": {
+      "retrieved_utc": "2026-10-09T16:35:52+00:00",
+      "nominatim": {
+        "query": "Pragati Maidan, New Delhi",
+        "url": "https://nominatim.openstreetmap.org/search?q=Pragati+Maidan%2C+New+Delhi&format=jsonv2&limit=3&countrycodes=in",
+        "results": [
+          {
+            "place_id": 244524740,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "node",
+            "osm_id": 5426388557,
+            "lat": "28.6175048",
+            "lon": "77.2401552",
+            "category": "highway",
+            "type": "bus_stop",
+            "place_rank": 30,
+            "importance": 5.58350499732512e-05,
+            "addresstype": "highway",
+            "name": "Pragati Maidan (Gate No.5)",
+            "display_name": "Pragati Maidan (Gate No.5), Pragati Maidan Tunnel, New Delhi, Delhi, 110503, India",
+            "boundingbox": [
+              "28.6174548",
+              "28.6175548",
+              "77.2401052",
+              "77.2402052"
+            ]
+          }
+        ]
+      },
+      "wikidata": {
+        "query": "Pragati Maidan",
+        "url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Pragati+Maidan&language=en&format=json&limit=5",
+        "candidates": [
+          {
+            "id": "Q2723163",
+            "label": "Bharat Mandapam",
+            "description": "Venue for exhibitions and conventions, located at Delhi, India.",
+            "coordinates": [
+              28.616813,
+              77.243359
+            ]
+          },
+          {
+            "id": "Q7237614",
+            "label": "Supreme Court",
+            "description": "metro station in Delhi, India",
+            "coordinates": [
+              28.62349,
+              77.242523
+            ]
+          },
+          {
+            "id": "Q24949212",
+            "label": "Pragati Maidan railway station",
+            "description": "Delhi ring railway network station",
+            "coordinates": [
+              28.615268,
+              77.247277
+            ]
+          },
+          {
+            "id": "Q69673382",
+            "label": "Pragati Maidan Sub Post Office",
+            "description": null,
+            "coordinates": null
+          },
+          {
+            "id": "Q69673379",
+            "label": "Pragati Maidan Camp Sub Post Office",
+            "description": null,
+            "coordinates": null
+          }
+        ]
+      }
+    },
+    "Cyber Hub": {
+      "retrieved_utc": "2026-10-09T16:35:59+00:00",
+      "nominatim": {
+        "query": "DLF CyberHub, Gurugram",
+        "url": "https://nominatim.openstreetmap.org/search?q=DLF+CyberHub%2C+Gurugram&format=jsonv2&limit=3&countrycodes=in",
+        "results": []
+      },
+      "wikidata": {
+        "query": "DLF CyberHub",
+        "url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=DLF+CyberHub&language=en&format=json&limit=5",
+        "candidates": []
+      }
+    },
+    "Khandsa": {
+      "retrieved_utc": "2026-10-09T16:36:03+00:00",
+      "nominatim": {
+        "query": "Khandsa, Gurugram",
+        "url": "https://nominatim.openstreetmap.org/search?q=Khandsa%2C+Gurugram&format=jsonv2&limit=3&countrycodes=in",
+        "results": [
+          {
+            "place_id": 245611782,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "node",
+            "osm_id": 7829480979,
+            "lat": "28.4533282",
+            "lon": "77.0195396",
+            "category": "leisure",
+            "type": "park",
+            "place_rank": 24,
+            "importance": 0.08006020981155106,
+            "addresstype": "park",
+            "name": "Atal Vatika Park",
+            "display_name": "Atal Vatika Park, 4 marla ,khandsa road,sector 11 , gurugram ,haryana, Sector 8, Gurgaon, Gurugram, Haryana, 122001, India",
+            "boundingbox": [
+              "28.4532782",
+              "28.4533782",
+              "77.0194896",
+              "77.0195896"
+            ]
+          },
+          {
+            "place_id": 245547137,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "way",
+            "osm_id": 143274519,
+            "lat": "28.4244695",
+            "lon": "76.9952156",
+            "category": "highway",
+            "type": "tertiary",
+            "place_rank": 26,
+            "importance": 0.05339354314488438,
+            "addresstype": "road",
+            "name": "Khandsa Road",
+            "display_name": "Khandsa Road, Pace CityII, Sector 36, Gurgaon, Gurugram, Haryana, 122004, India",
+            "boundingbox": [
+              "28.4078785",
+              "28.4383467",
+              "76.9890818",
+              "77.0060995"
+            ]
+          },
+          {
+            "place_id": 245694858,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "way",
+            "osm_id": 1081726156,
+            "lat": "28.4488664",
+            "lon": "77.0161193",
+            "category": "highway",
+            "type": "tertiary",
+            "place_rank": 26,
+            "importance": 0.05339354314488438,
+            "addresstype": "road",
+            "name": "Khandsa Road",
+            "display_name": "Khandsa Road, Shivaji Nagar, Sector 11, Gurgaon, Gurugram, Haryana, 122001, India",
+            "boundingbox": [
+              "28.4415992",
+              "28.4562872",
+              "77.0090183",
+              "77.0230549"
+            ]
+          }
+        ]
+      },
+      "wikidata": {
+        "query": "Khandsa",
+        "url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Khandsa&language=en&format=json&limit=5",
+        "candidates": [
+          {
+            "id": "Q6400254",
+            "label": "Khandsa",
+            "description": "village in Haryana, India",
+            "coordinates": [
+              28.422,
+              76.99
+            ]
+          },
+          {
+            "id": "Q69678834",
+            "label": "Khandsa Road Sub Post Office",
+            "description": null,
+            "coordinates": null
+          },
+          {
+            "id": "Q72986315",
+            "label": "Khandsara Branch Post Office",
+            "description": null,
+            "coordinates": null
+          },
+          {
+            "id": "Q72954553",
+            "label": "Khandsa Branch Post Office",
+            "description": null,
+            "coordinates": null
+          }
+        ]
+      }
+    },
+    "Noida Sector 62": {
+      "retrieved_utc": "2026-10-09T16:36:09+00:00",
+      "nominatim": {
+        "query": "Sector 62, Noida",
+        "url": "https://nominatim.openstreetmap.org/search?q=Sector+62%2C+Noida&format=jsonv2&limit=3&countrycodes=in",
+        "results": [
+          {
+            "place_id": 244582431,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "node",
+            "osm_id": 10811810934,
+            "lat": "28.6211447",
+            "lon": "77.3643493",
+            "category": "place",
+            "type": "suburb",
+            "place_rank": 19,
+            "importance": 0.14672250171663992,
+            "addresstype": "suburb",
+            "name": "Sector 62",
+            "display_name": "Sector 62, Noida, Dadri, Gautam Buddha Nagar, Uttar Pradesh, 201309, India",
+            "boundingbox": [
+              "28.6011447",
+              "28.6411447",
+              "77.3443493",
+              "77.3843493"
+            ]
+          },
+          {
+            "place_id": 244164199,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "node",
+            "osm_id": 5769516273,
+            "lat": "28.6254900",
+            "lon": "77.3742179",
+            "category": "highway",
+            "type": "bus_stop",
+            "place_rank": 30,
+            "importance": 5.58350499732512e-05,
+            "addresstype": "highway",
+            "name": "Sector 62",
+            "display_name": "Sector 62, Vishwakarma Road, Sector 62, Noida, Dadri, Gautam Buddha Nagar, Uttar Pradesh, 201309, India",
+            "boundingbox": [
+              "28.6254400",
+              "28.6255400",
+              "77.3741679",
+              "77.3742679"
+            ]
+          },
+          {
+            "place_id": 244288046,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "node",
+            "osm_id": 5769516274,
+            "lat": "28.6291554",
+            "lon": "77.3742248",
+            "category": "highway",
+            "type": "bus_stop",
+            "place_rank": 30,
+            "importance": 5.58350499732512e-05,
+            "addresstype": "highway",
+            "name": "Sector 62",
+            "display_name": "Sector 62, Vishwakarma Road, Sector 62, Noida, Dadri, Gautam Buddha Nagar, Uttar Pradesh, 201014, India",
+            "boundingbox": [
+              "28.6291054",
+              "28.6292054",
+              "77.3741748",
+              "77.3742748"
+            ]
+          }
+        ]
+      },
+      "wikidata": {
+        "query": "Sector 62 Noida",
+        "url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Sector+62+Noida&language=en&format=json&limit=5",
+        "candidates": []
+      }
+    },
+    "Ghaziabad": {
+      "retrieved_utc": "2026-10-09T16:36:14+00:00",
+      "nominatim": {
+        "query": "Ghaziabad, Uttar Pradesh",
+        "url": "https://nominatim.openstreetmap.org/search?q=Ghaziabad%2C+Uttar+Pradesh&format=jsonv2&limit=3&countrycodes=in",
+        "results": [
+          {
+            "place_id": 244484787,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "relation",
+            "osm_id": 1958054,
+            "lat": "28.7749966",
+            "lon": "77.4586967",
+            "category": "boundary",
+            "type": "administrative",
+            "place_rank": 10,
+            "importance": 0.5074225266361705,
+            "addresstype": "state_district",
+            "name": "Ghaziabad",
+            "display_name": "Ghaziabad, Uttar Pradesh, India",
+            "boundingbox": [
+              "28.6221757",
+              "28.9277798",
+              "77.1992428",
+              "77.7095278"
+            ]
+          },
+          {
+            "place_id": 244284494,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "node",
+            "osm_id": 2521085873,
+            "lat": "28.6711527",
+            "lon": "77.4120356",
+            "category": "place",
+            "type": "city",
+            "place_rank": 16,
+            "importance": 0.474661807552517,
+            "addresstype": "city",
+            "name": "Ghaziabad",
+            "display_name": "Ghaziabad, Uttar Pradesh, 201001, India",
+            "boundingbox": [
+              "28.5111527",
+              "28.8311527",
+              "77.2520356",
+              "77.5720356"
+            ]
+          },
+          {
+            "place_id": 244349043,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "relation",
+            "osm_id": 9999582,
+            "lat": "28.7284910",
+            "lon": "77.4440815",
+            "category": "boundary",
+            "type": "administrative",
+            "place_rank": 12,
+            "importance": 0.24005386053253983,
+            "addresstype": "county",
+            "name": "Ghaziabad",
+            "display_name": "Ghaziabad, Uttar Pradesh, India",
+            "boundingbox": [
+              "28.6221757",
+              "28.8350392",
+              "77.1992428",
+              "77.6164967"
+            ]
+          }
+        ]
+      },
+      "wikidata": {
+        "query": "Ghaziabad",
+        "url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Ghaziabad&language=en&format=json&limit=5",
+        "candidates": [
+          {
+            "id": "Q1773444",
+            "label": "Ghaziabad district",
+            "description": "district of Uttar Pradesh, India",
+            "coordinates": [
+              28.6667,
+              77.4333
+            ]
+          },
+          {
+            "id": "Q207098",
+            "label": "Ghaziabad",
+            "description": "city in the Indian state of Uttar Pradesh",
+            "coordinates": [
+              28.666666666667,
+              77.416666666667
+            ]
+          },
+          {
+            "id": "Q2223465",
+            "label": "Ghaziabad",
+            "description": "district of Kunar, Afghanistan",
+            "coordinates": [
+              34.7158,
+              70.7592
+            ]
+          },
+          {
+            "id": "Q5556091",
+            "label": "Ghaziabad Lok Sabha constituency",
+            "description": "Lok Sabha Constituency in Uttar Pradesh",
+            "coordinates": [
+              28.66,
+              77.45
+            ]
+          },
+          {
+            "id": "Q63680808",
+            "label": "Ghaziabad postal division",
+            "description": null,
+            "coordinates": null
+          }
+        ]
+      }
+    },
+    "IGI Airport": {
+      "retrieved_utc": "2026-10-09T16:36:20+00:00",
+      "nominatim": {
+        "query": "Indira Gandhi International Airport, Delhi",
+        "url": "https://nominatim.openstreetmap.org/search?q=Indira+Gandhi+International+Airport%2C+Delhi&format=jsonv2&limit=3&countrycodes=in",
+        "results": [
+          {
+            "place_id": 245526251,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "relation",
+            "osm_id": 19597141,
+            "lat": "28.5554221",
+            "lon": "77.0848066",
+            "category": "aeroway",
+            "type": "aerodrome",
+            "place_rank": 30,
+            "importance": 0.5505744539169398,
+            "addresstype": "aeroway",
+            "name": "Indira Gandhi International Airport",
+            "display_name": "Indira Gandhi International Airport, Abdul Gaffar Khan Marg, Mahipalpur, Najafgarh, Delhi, South West Delhi, Delhi, 110037, India",
+            "boundingbox": [
+              "28.5361503",
+              "28.5746629",
+              "77.0611896",
+              "77.1330547"
+            ]
+          }
+        ]
+      },
+      "wikidata": {
+        "query": "Indira Gandhi International Airport",
+        "url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Indira+Gandhi+International+Airport&language=en&format=json&limit=5",
+        "candidates": [
+          {
+            "id": "Q821275",
+            "label": "Indira Gandhi International Airport",
+            "description": "international airport in Delhi, India",
+            "coordinates": [
+              28.5574,
+              77.0833
+            ]
+          }
+        ]
+      }
+    },
+    "Panipat": {
+      "retrieved_utc": "2026-10-09T16:36:31+00:00",
+      "nominatim": {
+        "query": "Panipat, Haryana",
+        "url": "https://nominatim.openstreetmap.org/search?q=Panipat%2C+Haryana&format=jsonv2&limit=3&countrycodes=in",
+        "results": [
+          {
+            "place_id": 245670080,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "node",
+            "osm_id": 245768111,
+            "lat": "29.3912720",
+            "lon": "76.9771681",
+            "category": "place",
+            "type": "city",
+            "place_rank": 16,
+            "importance": 0.49602825304048376,
+            "addresstype": "city",
+            "name": "Panipat",
+            "display_name": "Panipat, Haryana, 132100, India",
+            "boundingbox": [
+              "29.2312720",
+              "29.5512720",
+              "76.8171681",
+              "77.1371681"
+            ]
+          },
+          {
+            "place_id": 245819548,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "relation",
+            "osm_id": 1942866,
+            "lat": "29.3472909",
+            "lon": "76.8871622",
+            "category": "boundary",
+            "type": "administrative",
+            "place_rank": 10,
+            "importance": 0.4323180864899549,
+            "addresstype": "state_district",
+            "name": "Panipat",
+            "display_name": "Panipat, Haryana, India",
+            "boundingbox": [
+              "29.1617656",
+              "29.5339729",
+              "76.6319110",
+              "77.1617889"
+            ]
+          },
+          {
+            "place_id": 245734464,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "relation",
+            "osm_id": 10396668,
+            "lat": "29.3882144",
+            "lon": "76.9902341",
+            "category": "boundary",
+            "type": "administrative",
+            "place_rank": 12,
+            "importance": 0.24005662394140534,
+            "addresstype": "county",
+            "name": "Panipat",
+            "display_name": "Panipat, Haryana, India",
+            "boundingbox": [
+              "29.2914066",
+              "29.4838058",
+              "76.9000746",
+              "77.0873302"
+            ]
+          }
+        ]
+      },
+      "wikidata": {
+        "query": "Panipat",
+        "url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Panipat&language=en&format=json&limit=5",
+        "candidates": [
+          {
+            "id": "Q2086163",
+            "label": "Panipat district",
+            "description": "district of Haryana, India",
+            "coordinates": [
+              29.3889,
+              76.9681
+            ]
+          },
+          {
+            "id": "Q139706",
+            "label": "Panipat",
+            "description": "city in India",
+            "coordinates": [
+              29.3875,
+              76.97
+            ]
+          },
+          {
+            "id": "Q50624631",
+            "label": "Panipat",
+            "description": "film directed by Ashutosh Gowariker",
+            "coordinates": null
+          },
+          {
+            "id": "Q16896391",
+            "label": "Panipat railway station",
+            "description": "railway station in Panipat district in the Indian state of Haryana",
+            "coordinates": [
+              29.389,
+              76.964
+            ]
+          },
+          {
+            "id": "Q19808849",
+            "label": "Panipat",
+            "description": "Marathi historical novel by Vishwas Patil",
+            "coordinates": null
+          }
+        ]
+      }
+    },
+    "MG Road": {
+      "retrieved_utc": "2026-10-09T16:37:20+00:00",
+      "nominatim": {
+        "query": "MG Road, Gurugram",
+        "url": "https://nominatim.openstreetmap.org/search?q=MG+Road%2C+Gurugram&format=jsonv2&limit=3&countrycodes=in",
+        "results": [
+          {
+            "place_id": 244776661,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "way",
+            "osm_id": 28739056,
+            "lat": "28.4769607",
+            "lon": "77.0662688",
+            "category": "highway",
+            "type": "primary",
+            "place_rank": 26,
+            "importance": 0.05339354314488438,
+            "addresstype": "road",
+            "name": "Mehrauli-Gurgaon Road",
+            "display_name": "Mehrauli-Gurgaon Road, HUDA, Sector 17, Gurgaon, Gurugram, Haryana, 122007, India",
+            "boundingbox": [
+              "28.4766764",
+              "28.4772817",
+              "77.0646579",
+              "77.0678738"
+            ]
+          },
+          {
+            "place_id": 245542516,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "node",
+            "osm_id": 4417155992,
+            "lat": "28.4771140",
+            "lon": "77.0670443",
+            "category": "tourism",
+            "type": "caravan_site",
+            "place_rank": 30,
+            "importance": 6.020981155103406e-05,
+            "addresstype": "tourism",
+            "name": "MG road",
+            "display_name": "MG road, Mehrauli-Gurgaon Road, HUDA, Sector 17, Gurgaon, Gurugram, Haryana, 122007, India",
+            "boundingbox": [
+              "28.4770640",
+              "28.4771640",
+              "77.0669943",
+              "77.0670943"
+            ]
+          },
+          {
+            "place_id": 245639140,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "way",
+            "osm_id": 760444564,
+            "lat": "28.4875015",
+            "lon": "77.1351364",
+            "category": "highway",
+            "type": "trunk",
+            "place_rank": 26,
+            "importance": 0.053370834668497714,
+            "addresstype": "road",
+            "name": "Acharya Shri Tulsi Marg",
+            "display_name": "Acharya Shri Tulsi Marg, Chattarpur Farms, South, Delhi, South Delhi, Delhi, 110047, India",
+            "boundingbox": [
+              "28.4786846",
+              "28.4971718",
+              "77.1146917",
+              "77.1569342"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "nominatim_followup": {
+    "Saket": {
+      "retrieved_utc": "2026-10-09T16:38:20+00:00",
+      "params": {
+        "q": "Saket, New Delhi",
+        "featureType": "settlement"
+      },
+      "url": "https://nominatim.openstreetmap.org/search?q=Saket%2C+New+Delhi&featureType=settlement&format=jsonv2&limit=3&countrycodes=in",
+      "results": []
+    },
+    "Pragati Maidan": {
+      "retrieved_utc": "2026-10-09T16:38:23+00:00",
+      "params": {
+        "q": "Bharat Mandapam, New Delhi"
+      },
+      "url": "https://nominatim.openstreetmap.org/search?q=Bharat+Mandapam%2C+New+Delhi&format=jsonv2&limit=3&countrycodes=in",
+      "results": []
+    },
+    "Cyber Hub": {
+      "retrieved_utc": "2026-10-09T16:38:26+00:00",
+      "params": {
+        "q": "Cyber Hub, Gurugram"
+      },
+      "url": "https://nominatim.openstreetmap.org/search?q=Cyber+Hub%2C+Gurugram&format=jsonv2&limit=3&countrycodes=in",
+      "results": [
+        {
+          "place_id": 244215503,
+          "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+          "osm_type": "way",
+          "osm_id": 1449268449,
+          "lat": "28.4951011",
+          "lon": "77.0885127",
+          "category": "landuse",
+          "type": "retail",
+          "place_rank": 24,
+          "importance": 0.08006020981155106,
+          "addresstype": "retail",
+          "name": "DLF Cyber Hub",
+          "display_name": "DLF Cyber Hub, Sector 25A, Gurgaon, Gurugram, Haryana, India",
+          "boundingbox": [
+            "28.4922016",
+            "28.4975961",
+            "77.0865315",
+            "77.0908770"
+          ]
+        },
+        {
+          "place_id": 244950940,
+          "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+          "osm_type": "node",
+          "osm_id": 5350937424,
+          "lat": "28.4962947",
+          "lon": "77.0891919",
+          "category": "tourism",
+          "type": "attraction",
+          "place_rank": 30,
+          "importance": 6.020981155103406e-05,
+          "addresstype": "tourism",
+          "name": "DLF Cyber Hub",
+          "display_name": "DLF Cyber Hub, DLF Tower 10th Road, DLF Cyber Hub, Sector 25A, Gurgaon, Gurugram, Haryana, 122010, India",
+          "boundingbox": [
+            "28.4962447",
+            "28.4963447",
+            "77.0891419",
+            "77.0892419"
+          ]
+        },
+        {
+          "place_id": 244534636,
+          "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+          "osm_type": "node",
+          "osm_id": 13289640467,
+          "lat": "28.4968654",
+          "lon": "77.0887941",
+          "category": "railway",
+          "type": "subway_entrance",
+          "place_rank": 30,
+          "importance": 6.020981155103406e-05,
+          "addresstype": "railway",
+          "name": "1: Cyber Hub Road",
+          "display_name": "1: Cyber Hub Road, Underpass, Sector 25A, Gurgaon, Gurugram, Haryana, 122010, India",
+          "boundingbox": [
+            "28.4968154",
+            "28.4969154",
+            "77.0887441",
+            "77.0888441"
+          ]
+        }
+      ]
+    },
+    "Khandsa": {
+      "retrieved_utc": "2026-10-09T16:38:28+00:00",
+      "params": {
+        "q": "Khandsa, Gurugram",
+        "featureType": "settlement"
+      },
+      "url": "https://nominatim.openstreetmap.org/search?q=Khandsa%2C+Gurugram&featureType=settlement&format=jsonv2&limit=3&countrycodes=in",
+      "results": []
+    }
+  },
+  "wikidata_saket": {
+    "query": "Saket",
+    "url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Saket&language=en&format=json&limit=7",
+    "candidates": [
+      {
+        "id": "Q7402904",
+        "label": "Saket",
+        "description": "male given name",
+        "coordinates": null
+      },
+      {
+        "id": "Q3321840",
+        "label": "Saketi",
+        "description": "district in Pandeglang Regency, Banten Province, Indonesia",
+        "coordinates": [
+          -6.397568561959786,
+          105.9906637256987
+        ]
+      },
+      {
+        "id": "Q7402907",
+        "label": "Saket",
+        "description": "human settlement in India",
+        "coordinates": [
+          28.51918,
+          77.21301
+        ]
+      },
+      {
+        "id": "Q114776540",
+        "label": "Saketh R Guntupalli",
+        "description": "researcher",
+        "coordinates": null
+      },
+      {
+        "id": "Q102407564",
+        "label": "Saket Saurabh",
+        "description": "Ph.D. The Institute of Mathematical Sciences, Chennai",
+        "coordinates": null
+      },
+      {
+        "id": "Q102317327",
+        "label": "Saket Kaushik",
+        "description": "Ph.D. George Mason University 2007",
+        "coordinates": null
+      },
+      {
+        "id": "Q12511545",
+        "label": "Saketi",
+        "description": "village in Pandeglang Regency, Banten, Indonesia",
+        "coordinates": [
+          -6.4022222222222,
+          105.99638888889
+        ]
+      }
+    ]
+  }
+}

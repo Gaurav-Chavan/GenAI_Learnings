@@ -1,0 +1,567 @@
+{
+  "generated_at_utc": "2026-10-09T16:58:38Z",
+  "pipeline_version": "1.0.0",
+  "source": {
+    "path": "ncr_ride_bookings.csv",
+    "size_bytes": 25537048,
+    "sha256": "545118f78c629cf8495770a2c16f839a5a3fbcbd0af7982c98309d5dc6db72e7",
+    "unchanged_after_run": true,
+    "columns": [
+      "Date",
+      "Time",
+      "Booking ID",
+      "Booking Status",
+      "Customer ID",
+      "Vehicle Type",
+      "Pickup Location",
+      "Drop Location",
+      "Avg VTAT",
+      "Avg CTAT",
+      "Cancelled Rides by Customer",
+      "Reason for cancelling by Customer",
+      "Cancelled Rides by Driver",
+      "Driver Cancellation Reason",
+      "Incomplete Rides",
+      "Incomplete Rides Reason",
+      "Booking Value",
+      "Ride Distance",
+      "Driver Ratings",
+      "Customer Rating",
+      "Payment Method"
+    ],
+    "column_count": 21,
+    "matches_expected": true,
+    "extra_columns_ignored": []
+  },
+  "assumptions": [
+    "One source row is one booking record. Booking ID is not assumed unique; source_record_key (source SHA-256 prefix + 1-based row number) identifies rows.",
+    "Date and Time are treated as local booking time; no time-zone conversion is applied.",
+    "Missing tokens (case-insensitive, after trimming): empty, 'null', 'nan', 'none'.",
+    "Cancellation = Cancelled by Customer + Cancelled by Driver. No Driver Found and Incomplete are separate outcomes.",
+    "Booking Value is in source currency units (INR is a proposed, unverified display label); it is not net revenue or profit.",
+    "Avg VTAT and Avg CTAT keep their source names; their operational meaning is unverified.",
+    "Location coordinates come only from reviewed lookup rows; unresolved labels stay unmapped."
+  ],
+  "row_counts": [
+    {
+      "step": "read raw CSV",
+      "rows": 150000
+    },
+    {
+      "step": "normalize and derive fields",
+      "rows": 150000
+    },
+    {
+      "step": "pickup and drop lookup joins",
+      "rows": 150000
+    },
+    {
+      "step": "written and reloaded",
+      "rows": 150000
+    }
+  ],
+  "outputs": {
+    "prepared_csv": "data/processed/rides_prepared.csv",
+    "lookup_csv": "data/reference/location_lookup.csv",
+    "reload_consistent": true
+  },
+  "coverage": {
+    "rows_with_parsed_date": 150000,
+    "rows_missing_date": 0,
+    "rows_missing_time": 0,
+    "first_date": "2024-01-01",
+    "last_date": "2024-12-30",
+    "distinct_dates": 365,
+    "calendar_days_in_interval": 365,
+    "coverage_gap_dates": [],
+    "coverage_gap_count": 0,
+    "weekday_occurrences": {
+      "Monday": 53,
+      "Tuesday": 52,
+      "Wednesday": 52,
+      "Thursday": 52,
+      "Friday": 52,
+      "Saturday": 52,
+      "Sunday": 52
+    },
+    "weekday_demand": [
+      {
+        "weekday": "Monday",
+        "bookings": 21644,
+        "eligible_days": 53,
+        "avg_bookings_per_day": 408.38
+      },
+      {
+        "weekday": "Tuesday",
+        "bookings": 21391,
+        "eligible_days": 52,
+        "avg_bookings_per_day": 411.37
+      },
+      {
+        "weekday": "Wednesday",
+        "bookings": 21413,
+        "eligible_days": 52,
+        "avg_bookings_per_day": 411.79
+      },
+      {
+        "weekday": "Thursday",
+        "bookings": 21215,
+        "eligible_days": 52,
+        "avg_bookings_per_day": 407.98
+      },
+      {
+        "weekday": "Friday",
+        "bookings": 21397,
+        "eligible_days": 52,
+        "avg_bookings_per_day": 411.48
+      },
+      {
+        "weekday": "Saturday",
+        "bookings": 21542,
+        "eligible_days": 52,
+        "avg_bookings_per_day": 414.27
+      },
+      {
+        "weekday": "Sunday",
+        "bookings": 21398,
+        "eligible_days": 52,
+        "avg_bookings_per_day": 411.5
+      }
+    ],
+    "bookings_by_hour": {
+      "0": 1373,
+      "1": 1360,
+      "2": 1339,
+      "3": 1383,
+      "4": 1321,
+      "5": 2786,
+      "6": 4160,
+      "7": 5450,
+      "8": 6861,
+      "9": 8234,
+      "10": 9577,
+      "11": 8390,
+      "12": 7006,
+      "13": 5470,
+      "14": 7031,
+      "15": 8202,
+      "16": 9633,
+      "17": 11044,
+      "18": 12397,
+      "19": 11047,
+      "20": 9630,
+      "21": 8103,
+      "22": 5441,
+      "23": 2762
+    }
+  },
+  "identifiers": {
+    "booking_id": {
+      "missing": 0,
+      "raw_values_changed_by_normalization": 150000,
+      "raw_values_with_literal_quotes": 150000,
+      "distinct_normalized": 148767,
+      "ids_appearing_more_than_once": 1224,
+      "excess_occurrences": 1233,
+      "rows_with_repeated_id": 2457,
+      "repeated_id_groups_varying_in": {
+        "date": 1219,
+        "customer_id": 1224,
+        "booking_status": 731
+      }
+    },
+    "customer_id": {
+      "missing": 0,
+      "raw_values_changed_by_normalization": 150000,
+      "raw_values_with_literal_quotes": 150000,
+      "distinct_normalized": 148788,
+      "ids_appearing_more_than_once": 1206,
+      "excess_occurrences": 1212,
+      "rows_with_repeated_id": 2418
+    }
+  },
+  "exact_duplicates": {
+    "rows_beyond_first": 0,
+    "rows_in_duplicate_groups": 0
+  },
+  "status_distribution": [
+    {
+      "booking_status": "Completed",
+      "bookings": 93000,
+      "share": 0.62
+    },
+    {
+      "booking_status": "Cancelled by Customer",
+      "bookings": 10500,
+      "share": 0.07
+    },
+    {
+      "booking_status": "Cancelled by Driver",
+      "bookings": 27000,
+      "share": 0.18
+    },
+    {
+      "booking_status": "No Driver Found",
+      "bookings": 10500,
+      "share": 0.07
+    },
+    {
+      "booking_status": "Incomplete",
+      "bookings": 9000,
+      "share": 0.06
+    }
+  ],
+  "outcome_rates": {
+    "denominator_rows": 150000,
+    "completion_rate": 0.62,
+    "cancellation_rate": 0.25,
+    "no_driver_rate": 0.07,
+    "incomplete_rate": 0.06,
+    "non_completion_rate": 0.38,
+    "unique_customer_ids": 148788
+  },
+  "flag_validation": {
+    "Cancelled Rides by Customer": {
+      "expected_status": "Cancelled by Customer",
+      "status_rows": 10500,
+      "status_rows_flag_1": 10500,
+      "status_rows_flag_missing": 0,
+      "other_rows_flag_1": 0,
+      "other_rows_flag_0": 0,
+      "other_rows_flag_missing": 139500,
+      "mismatched_rows": 0
+    },
+    "Cancelled Rides by Driver": {
+      "expected_status": "Cancelled by Driver",
+      "status_rows": 27000,
+      "status_rows_flag_1": 27000,
+      "status_rows_flag_missing": 0,
+      "other_rows_flag_1": 0,
+      "other_rows_flag_0": 0,
+      "other_rows_flag_missing": 123000,
+      "mismatched_rows": 0
+    },
+    "Incomplete Rides": {
+      "expected_status": "Incomplete",
+      "status_rows": 9000,
+      "status_rows_flag_1": 9000,
+      "status_rows_flag_missing": 0,
+      "other_rows_flag_1": 0,
+      "other_rows_flag_0": 0,
+      "other_rows_flag_missing": 141000,
+      "mismatched_rows": 0
+    }
+  },
+  "reason_validation": {
+    "customer_cancel_reason": {
+      "expected_status": "Cancelled by Customer",
+      "present_on_status": 10500,
+      "missing_on_status": 0,
+      "present_on_other_status": 0
+    },
+    "driver_cancel_reason": {
+      "expected_status": "Cancelled by Driver",
+      "present_on_status": 27000,
+      "missing_on_status": 0,
+      "present_on_other_status": 0
+    },
+    "incomplete_reason": {
+      "expected_status": "Incomplete",
+      "present_on_status": 9000,
+      "missing_on_status": 0,
+      "present_on_other_status": 0
+    }
+  },
+  "parse_failures": {
+    "Date": {
+      "count": 0,
+      "example_source_rows": []
+    },
+    "Time": {
+      "count": 0,
+      "example_source_rows": []
+    },
+    "Avg VTAT": {
+      "count": 0,
+      "example_source_rows": []
+    },
+    "Avg CTAT": {
+      "count": 0,
+      "example_source_rows": []
+    },
+    "Booking Value": {
+      "count": 0,
+      "example_source_rows": []
+    },
+    "Ride Distance": {
+      "count": 0,
+      "example_source_rows": []
+    },
+    "Driver Ratings": {
+      "count": 0,
+      "example_source_rows": []
+    },
+    "Customer Rating": {
+      "count": 0,
+      "example_source_rows": []
+    },
+    "Cancelled Rides by Customer": {
+      "count": 0,
+      "example_source_rows": []
+    },
+    "Cancelled Rides by Driver": {
+      "count": 0,
+      "example_source_rows": []
+    },
+    "Incomplete Rides": {
+      "count": 0,
+      "example_source_rows": []
+    }
+  },
+  "range_violations": {
+    "avg_vtat": {
+      "min": 0,
+      "max": null,
+      "violations": 0
+    },
+    "avg_ctat": {
+      "min": 0,
+      "max": null,
+      "violations": 0
+    },
+    "booking_value": {
+      "min": 0,
+      "max": null,
+      "violations": 0
+    },
+    "ride_distance": {
+      "min": 0,
+      "max": null,
+      "violations": 0
+    },
+    "driver_rating": {
+      "min": 1,
+      "max": 5,
+      "violations": 0
+    },
+    "customer_rating": {
+      "min": 1,
+      "max": 5,
+      "violations": 0
+    }
+  },
+  "text_values_changed_by_whitespace_normalization": {
+    "Booking Status": 0,
+    "Vehicle Type": 0,
+    "Pickup Location": 0,
+    "Drop Location": 0,
+    "Reason for cancelling by Customer": 0,
+    "Driver Cancellation Reason": 0,
+    "Incomplete Rides Reason": 0,
+    "Payment Method": 0
+  },
+  "missingness": {
+    "missing_by_column": {
+      "avg_vtat": 10500,
+      "avg_ctat": 48000,
+      "booking_value": 48000,
+      "ride_distance": 48000,
+      "driver_rating": 57000,
+      "customer_rating": 57000,
+      "payment_method": 48000,
+      "customer_cancel_reason": 139500,
+      "driver_cancel_reason": 123000,
+      "incomplete_reason": 141000
+    },
+    "present_by_status": {
+      "Cancelled by Customer": {
+        "rows": 10500,
+        "present": {
+          "avg_vtat": 10500,
+          "avg_ctat": 0,
+          "booking_value": 0,
+          "ride_distance": 0,
+          "driver_rating": 0,
+          "customer_rating": 0,
+          "payment_method": 0,
+          "customer_cancel_reason": 10500,
+          "driver_cancel_reason": 0,
+          "incomplete_reason": 0
+        }
+      },
+      "Cancelled by Driver": {
+        "rows": 27000,
+        "present": {
+          "avg_vtat": 27000,
+          "avg_ctat": 0,
+          "booking_value": 0,
+          "ride_distance": 0,
+          "driver_rating": 0,
+          "customer_rating": 0,
+          "payment_method": 0,
+          "customer_cancel_reason": 0,
+          "driver_cancel_reason": 27000,
+          "incomplete_reason": 0
+        }
+      },
+      "Completed": {
+        "rows": 93000,
+        "present": {
+          "avg_vtat": 93000,
+          "avg_ctat": 93000,
+          "booking_value": 93000,
+          "ride_distance": 93000,
+          "driver_rating": 93000,
+          "customer_rating": 93000,
+          "payment_method": 93000,
+          "customer_cancel_reason": 0,
+          "driver_cancel_reason": 0,
+          "incomplete_reason": 0
+        }
+      },
+      "Incomplete": {
+        "rows": 9000,
+        "present": {
+          "avg_vtat": 9000,
+          "avg_ctat": 9000,
+          "booking_value": 9000,
+          "ride_distance": 9000,
+          "driver_rating": 0,
+          "customer_rating": 0,
+          "payment_method": 9000,
+          "customer_cancel_reason": 0,
+          "driver_cancel_reason": 0,
+          "incomplete_reason": 9000
+        }
+      },
+      "No Driver Found": {
+        "rows": 10500,
+        "present": {
+          "avg_vtat": 0,
+          "avg_ctat": 0,
+          "booking_value": 0,
+          "ride_distance": 0,
+          "driver_rating": 0,
+          "customer_rating": 0,
+          "payment_method": 0,
+          "customer_cancel_reason": 0,
+          "driver_cancel_reason": 0,
+          "incomplete_reason": 0
+        }
+      }
+    }
+  },
+  "quality_issues": {
+    "rows_with_any_issue": 0,
+    "counts_by_code": {}
+  },
+  "categories": {
+    "vehicle_type": {
+      "Auto": 37419,
+      "Go Mini": 29806,
+      "Go Sedan": 27141,
+      "Bike": 22517,
+      "Premier Sedan": 18111,
+      "eBike": 10557,
+      "Uber XL": 4449
+    },
+    "payment_method_completed": {
+      "eligible_records": 93000,
+      "completed_without_method": 0,
+      "counts": {
+        "UPI": 41834,
+        "Cash": 23114,
+        "Uber Wallet": 11206,
+        "Credit Card": 9320,
+        "Debit Card": 7526
+      }
+    },
+    "completed_booking_value": {
+      "total_source_currency_units": 47260574.0,
+      "valid_records": 93000,
+      "completed_records": 93000
+    }
+  },
+  "geography": {
+    "source_coordinate_columns": [],
+    "distinct_pickup_labels": 176,
+    "distinct_drop_labels": 176,
+    "distinct_labels_both_endpoints": 176,
+    "rows_missing_pickup": 0,
+    "rows_missing_drop": 0,
+    "distinct_ordered_pairs": 30564,
+    "max_records_for_one_ordered_pair": 17,
+    "rows_with_same_pickup_and_drop": 0,
+    "top_pickups": [
+      {
+        "location": "Khandsa",
+        "bookings": 949
+      },
+      {
+        "location": "Barakhamba Road",
+        "bookings": 946
+      },
+      {
+        "location": "Saket",
+        "bookings": 931
+      },
+      {
+        "location": "Badarpur",
+        "bookings": 921
+      },
+      {
+        "location": "Pragati Maidan",
+        "bookings": 920
+      }
+    ],
+    "top_drops": [
+      {
+        "location": "Ashram",
+        "bookings": 936
+      },
+      {
+        "location": "Basai Dhankot",
+        "bookings": 917
+      },
+      {
+        "location": "Lok Kalyan Marg",
+        "bookings": 916
+      },
+      {
+        "location": "Narsinghpur",
+        "bookings": 913
+      },
+      {
+        "location": "Cyber Hub",
+        "bookings": 912
+      }
+    ],
+    "lookup": {
+      "rows": 176,
+      "by_review_status": {
+        "unresolved": 168,
+        "reviewed": 8
+      },
+      "labels_added_this_run": 0,
+      "labels_in_lookup_not_in_source": []
+    },
+    "layer_coverage": {
+      "pickup_points": {
+        "eligible_rows": 7068,
+        "share_of_rows": 0.04712
+      },
+      "drop_points": {
+        "eligible_rows": 6758,
+        "share_of_rows": 0.045053333333333334
+      },
+      "flows_both_endpoints": {
+        "eligible_rows": 285,
+        "share_of_rows": 0.0019
+      }
+    }
+  },
+  "sample_size": {
+    "pickup_rows_per_label_min": 790,
+    "reliability_min_denominator": 50
+  }
+}

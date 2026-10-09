@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($p = \"Maven-MasteringAgenticAI\\\\Week1_Project\"; Get-Content \"$p\\\\data\\\\reference\\\\location_lookup.csv\" -TotalCount 4; \\(Get-Content \"$p\\\\data\\\\reference\\\\location_lookup.csv\"\\).Count; Get-ChildItem \"$p\\\\data\\\\processed\", \"$p\\\\reports\" | Select-Object Name, Length | Format-Table -AutoSize; Get-Content \"$p\\\\data\\\\processed\\\\rides_prepared.meta.json\"; Get-Content \"$p\\\\data\\\\processed\\\\rides_prepared.csv\" -TotalCount 2)",
+      "PowerShell($f = \"Maven-MasteringAgenticAI\\\\Week1_Project\\\\metrics.py\"; Select-String -Path $f -Pattern \"safe_rate\\\\\\(\" | ForEach-Object { \"$\\($_.LineNumber\\): $\\($_.Line.Trim\\(\\)\\)\" })",
+      "PowerShell(uv --directory Maven-MasteringAgenticAI/Week1_Project run ruff check . 2>&1; \"ruff exit=$LASTEXITCODE\"; uv --directory Maven-MasteringAgenticAI/Week1_Project run ruff format --check . 2>&1 | Select-Object -Last 8; \"format-check exit=$LASTEXITCODE\")",
+      "PowerShell(uv --directory Maven-MasteringAgenticAI/Week1_Project run python -m pytest -q -rs; \"exit=$LASTEXITCODE\")",
+      "Read(//c/Users/Gaurav/Desktop/Maven/**)",
+      "PowerShell(git -C Maven-MasteringAgenticAI/Week1_Project log --oneline -5 --all)",
+      "PowerShell(git -C Maven-MasteringAgenticAI/Week1_Project branch -a)",
+      "PowerShell(git -C Maven-MasteringAgenticAI/Week1_Project stash list)",
+      "PowerShell(& \"Maven-MasteringAgenticAI\\\\Week1_Project\\\\.venv\\\\Scripts\\\\python.exe\" \"C:\\\\Users\\\\Gaurav\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-Gaurav-Desktop-Maven-GenAI-Learnings\\\\0a202ff2-4d07-47b0-9227-efbfbc53ef4b\\\\scratchpad\\\\st_probe.py\" 2>&1 | Where-Object { $_ -notmatch 'Warning: to view|streamlit run|No runtime found' })"
+    ]
+  }
+}

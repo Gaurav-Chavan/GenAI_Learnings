@@ -1,0 +1,13 @@
+# Local environment and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.tmp
+
+# Raw source data: do not publish until redistribution rights are verified and approved
+ncr_ride_bookings.csv
+
+# Derived booking-level data; regenerate with: uv run python preprocessing.py
+data/processed/

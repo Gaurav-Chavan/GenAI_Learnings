@@ -1,0 +1,93 @@
+{
+  "_note": "Values transcribed from docs/PRIOR_DATA_AUDIT.md (audit dated 2026-10-09). Regression expectations for this exact source version only; never used by application code.",
+  "source_sha256": "545118f78c629cf8495770a2c16f839a5a3fbcbd0af7982c98309d5dc6db72e7",
+  "source_size_bytes": 25537048,
+  "rows": 150000,
+  "columns": 21,
+  "distinct_booking_ids": 148767,
+  "booking_ids_appearing_more_than_once": 1224,
+  "booking_id_excess_occurrences": 1233,
+  "exact_duplicate_rows": 0,
+  "distinct_customer_ids": 148788,
+  "customer_ids_appearing_more_than_once": 1206,
+  "status_counts": {
+    "Completed": 93000,
+    "Cancelled by Customer": 10500,
+    "Cancelled by Driver": 27000,
+    "No Driver Found": 10500,
+    "Incomplete": 9000
+  },
+  "completion_rate": 0.62,
+  "cancellation_rate": 0.25,
+  "non_completion_rate": 0.38,
+  "first_date": "2024-01-01",
+  "last_date": "2024-12-30",
+  "distinct_dates": 365,
+  "distinct_pickup_labels": 176,
+  "distinct_drop_labels": 176,
+  "distinct_labels_both_endpoints": 176,
+  "distinct_ordered_pairs": 30564,
+  "max_records_for_one_ordered_pair": 17,
+  "top_hour": 18,
+  "top_hour_bookings": 12397,
+  "weekday_totals": {
+    "Monday": 21644,
+    "Tuesday": 21391,
+    "Wednesday": 21413,
+    "Thursday": 21215,
+    "Friday": 21397,
+    "Saturday": 21542,
+    "Sunday": 21398
+  },
+  "weekday_occurrences": {
+    "Monday": 53,
+    "Tuesday": 52,
+    "Wednesday": 52,
+    "Thursday": 52,
+    "Friday": 52,
+    "Saturday": 52,
+    "Sunday": 52
+  },
+  "weekday_avg_per_occurrence": {
+    "Monday": 408.38,
+    "Tuesday": 411.37,
+    "Wednesday": 411.79,
+    "Thursday": 407.98,
+    "Friday": 411.48,
+    "Saturday": 414.27,
+    "Sunday": 411.50
+  },
+  "vehicle_type_counts": {
+    "Auto": 37419,
+    "Go Mini": 29806,
+    "Go Sedan": 27141,
+    "Bike": 22517,
+    "Premier Sedan": 18111,
+    "eBike": 10557,
+    "Uber XL": 4449
+  },
+  "payment_method_completed_counts": {
+    "UPI": 41834,
+    "Cash": 23114,
+    "Uber Wallet": 11206,
+    "Credit Card": 9320,
+    "Debit Card": 7526
+  },
+  "completed_booking_value_sum": 47260574,
+  "completed_booking_value_mean": 508.18,
+  "all_records_booking_value_sum": 51846183,
+  "top_pickups": [
+    ["Khandsa", 949],
+    ["Barakhamba Road", 946],
+    ["Saket", 931],
+    ["Badarpur", 921],
+    ["Pragati Maidan", 920]
+  ],
+  "top_drops": [
+    ["Ashram", 936],
+    ["Basai Dhankot", 917],
+    ["Lok Kalyan Marg", 916],
+    ["Narsinghpur", 913],
+    ["Cyber Hub", 912]
+  ]
+}

@@ -1,0 +1,28 @@
+[project]
+name = "week1-project"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=3.0.6",
+    "plotly>=7.1.0",
+    "pydeck>=0.9.3",
+    "streamlit>=1.65.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.16.10",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["real_data: checks that read the local ncr_ride_bookings.csv (skipped when absent)"]
+
+[tool.ruff]
+line-length = 100
+extend-exclude = [".venv"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
