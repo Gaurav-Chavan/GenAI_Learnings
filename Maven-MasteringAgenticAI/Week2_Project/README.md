@@ -127,8 +127,6 @@ secrets as TOML (`OPENAI_API_KEY = "..."` etc.). It installs from `requirements.
 `app.py` puts `src/` on the import path itself, so the subfolder layout works. After dependency changes:
 `uv export --frozen --no-dev --no-hashes --no-emit-project --format requirements-txt -o requirements.txt`.
 
-**Replit:** import the project (`uv run python scripts/make_zip.py` builds a clean zip); `.replit` holds the
-run and deployment commands. If `uv` is missing in the Repl, run `pip install uv` once in the Shell.
 
 Notes: Aura Free pauses when idle — resume it before a demo. Files written at runtime
 (`feedback.jsonl`, `chroma_db/`) are not permanent on most hosts.
@@ -155,13 +153,3 @@ eval/results.*            latest evaluation run (csv, jsonl, summary.md)
 docs/PLAN.md              build plan, design decisions, iteration log
 docs/comparison_analysis.md   GraphRAG vs. vector RAG analysis (deliverable)
 ```
-
-## Status
-
-- [x] Phase 0 — uv project scaffold
-- [x] Phase 1 — dataset extension + Neo4j ingestion (loaded into Aura, verification passing)
-- [x] Phase 2 — vector RAG baseline
-- [x] Phase 3 — GraphRAG (LangGraph)
-- [x] Phase 4 — evaluation (14 questions) + comparison analysis
-- [x] Phase 5 — Streamlit chatbot UI
-- [ ] Phase 6 — docs + demo video
