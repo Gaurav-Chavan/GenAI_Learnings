@@ -1,0 +1,154 @@
+id,category,system,question,correctness,faithfulness,entity_recall,distractors,refused,refusal_ok,cited,latency_s,input_tokens,output_tokens,path,correctness_reason,faithfulness_reason,answer,error
+Q1,Multi-hop + temporal,graph,Who worked on the last compliance audit and what tools did they use?,1,1,1.0,,False,True,True,5.91,2701,228,router:graph -> write_cypher -> run_cypher:1 rows -> grade:sufficient -> answer,The assistant correctly identified the team members and tools used for the Q3 2025 SOC2 Compliance Audit.,All claims about roles and tools are supported by the context.,"- Alice Chen led the Q3 2025 SOC2 Compliance Audit [proj_audit_q3].
+- Bob Martinez was the Evidence Engineer [proj_audit_q3].
+- Frank Lee served as the Security Reviewer [proj_audit_q3].
+- The tools used for the audit were:
+  - AWS Audit Manager [tool_aws_audit]
+  - Drata [tool_drata]
+  - Okta [tool_okta]",
+Q1,Multi-hop + temporal,vector,Who worked on the last compliance audit and what tools did they use?,1,1,1.0,,False,True,True,2.94,612,114,,The assistant correctly identified the people and tools involved in the Q3 2025 SOC2 Compliance Audit.,All claims about people and tools used in the Q3 2025 audit are supported by the context.,"- The people who worked on the last compliance audit (Q3 2025 SOC2 Compliance Audit) are:
+  - Alice Chen (role: Lead) [proj_audit_q3]
+  - Frank Lee (role: Security Reviewer) [proj_audit_q3]
+  - Bob Martinez (role: Evidence Engineer) [proj_audit_q3]
+
+- The tools they used are:
+  - AWS Audit Manager [tool_aws_audit]
+  - Drata [proj_audit_q3]
+  - Okta [proj_audit_q3]",
+Q2,Multi-hop,graph,What decisions were made about our pricing model and who approved them?,1,1,1.0,,False,True,True,5.49,2417,129,router:graph -> write_cypher -> run_cypher:1 rows -> grade:sufficient -> answer,The assistant's answer includes all key facts from the reference answer and contains no errors.,All claims in the answer are supported by the context provided.,"- The decision was made to adopt a 3-tier usage-based pricing model [dec_tiered_pricing].
+- This decision was approved by Carol Wu [p_carol] and Eve Johnson [p_eve].",
+Q2,Multi-hop,vector,What decisions were made about our pricing model and who approved them?,1,1,1.0,,False,True,True,2.26,603,93,,The assistant accurately includes all key facts from the reference answer and provides additional context without errors.,All claims in the answer are directly supported by the context provided.,"- The decision to adopt a 3-tier usage-based pricing model was made on May 20, 2025 [dec_tiered_pricing].
+- This decision was approved by Eve Johnson and Carol Wu [dec_tiered_pricing].
+- The rationale for this decision was to reduce SMB churn and increase NRR by aligning price with realized value [dec_tiered_pricing]. 
+
+No additional decisions about the pricing model were mentioned in the context.",
+Q3,Aggregation,graph,Who has worked on more than one project?,1,1,1.0,,False,True,True,6.54,3318,277,router:graph -> write_cypher -> run_cypher:4 rows -> grade:sufficient -> answer,The assistant correctly lists all individuals who worked on more than one project and matches the reference answer.,All claims about individuals and their projects are supported by the context.,"The following individuals have worked on more than one project:
+
+- Bob Martinez: 3 projects [p_bob]
+  - Q3 2025 SOC2 Compliance Audit [proj_audit_q3]
+  - ML Recommendation Engine [proj_ml_recs]
+  - Zero-Trust Security Rollout [proj_zerotrust]
+
+- Alice Chen: 2 projects [p_alice]
+  - Q3 2025 SOC2 Compliance Audit [proj_audit_q3]
+  - Q3 2024 SOC2 Compliance Audit [proj_audit_2024]
+
+- David Kim: 2 projects [p_david]
+  - Pricing Model Redesign [proj_pricing]
+  - ML Recommendation Engine [proj_ml_recs]
+
+- Frank Lee: 2 projects [p_frank]
+  - Q3 2025 SOC2 Compliance Audit [proj_audit_q3]
+  - Zero-Trust Security Rollout [proj_zerotrust]",
+Q3,Aggregation,vector,Who has worked on more than one project?,0.5,1,0.5,,False,True,True,2.09,433,80,,The assistant correctly identifies Frank Lee and Bob Martinez but omits Alice Chen and David Kim.,All claims about Frank Lee and Bob Martinez's project involvement are supported by the context.,"- Frank Lee has worked on two projects: Q3 2025 SOC2 Compliance Audit and Zero-Trust Security Rollout [p_frank].
+- Bob Martinez has worked on three projects: Q3 2025 SOC2 Compliance Audit, ML Recommendation Engine, and Zero-Trust Security Rollout [p_bob]. 
+
+Both Frank Lee and Bob Martinez have worked on more than one project.",
+Q4,Aggregation,graph,Which tools are used across multiple projects?,1,1,1.0,,False,True,True,5.4,2803,169,router:graph -> write_cypher -> run_cypher:2 rows -> grade:sufficient -> answer,"The assistant correctly identifies Snowflake and Okta as tools used across multiple projects, matching the reference answer.",All claims about tool usage in projects are supported by the context.,"The tools used across multiple projects are:
+
+- **Okta**: Used in the following projects:
+  - Q3 2025 SOC2 Compliance Audit [proj_audit_q3]
+  - Zero-Trust Security Rollout [proj_zerotrust]
+
+- **Snowflake**: Used in the following projects:
+  - Pricing Model Redesign [proj_pricing]
+  - ML Recommendation Engine [proj_ml_recs]",
+Q4,Aggregation,vector,Which tools are used across multiple projects?,0,,0.0,,True,False,False,1.36,333,10,,"The assistant incorrectly claims the information is unavailable, while the reference provides specific tools used across projects.",,I couldn't find this in the org knowledge base.,
+Q5,Provenance,graph,What analysis motivated the pricing redesign and who wrote it?,1,1,1.0,,False,True,True,5.78,2680,133,router:graph -> write_cypher -> run_cypher:0 rows -> anchor:4 seeds -> answer,The assistant's answer includes all key facts from the reference and is correct.,All claims in the answer are supported by the context provided.,"The analysis that motivated the pricing redesign was the ""Customer Churn Analysis Q2 2025,"" which identified pricing friction as the leading driver among SMB customers [doc_churn_analysis]. This analysis was authored by David Kim [p_david].",
+Q5,Provenance,vector,What analysis motivated the pricing redesign and who wrote it?,1,1,1.0,,False,True,True,2.79,610,105,,"The assistant correctly identifies the analysis and author that motivated the pricing redesign, matching the reference answer.",All claims are supported by the context provided.,"- The analysis that motivated the pricing redesign was the ""Customer Churn Analysis Q2 2025,"" which identified pricing friction as the leading driver among SMB customers [doc_churn_analysis].
+- This analysis was authored by David Kim [doc_churn_analysis].
+- Additionally, the ""Pricing Strategy Memo (April 2025)"" also supported the redesign and was authored by Carol Wu [doc_pricing_memo]. 
+
+What is missing: The specific details of the findings from the ""Pricing Strategy Memo"" are not included.",
+Q6,Multi-hop,graph,"Which decisions did Grace Patel approve, and for which projects?",1,1,1.0,,False,True,True,5.53,3036,205,router:graph -> write_cypher -> run_cypher:1 rows -> grade:sufficient -> answer,"The assistant's answer includes all the key decisions and projects approved by Grace Patel, matching the reference answer.",All claims about decisions and projects are supported by the context.,"Grace Patel approved the following decisions for the respective projects:
+
+- **Mandate MFA for all production system access**  
+  - Project: Zero-Trust Security Rollout [dec_mfa_mandate, proj_zerotrust]
+
+- **Standardize on PyTorch for ML training pipelines**  
+  - Project: ML Recommendation Engine [dec_pytorch, proj_ml_recs]
+
+- **Replace Vanta with Drata for audit evidence automation**  
+  - Project: Q3 2025 SOC2 Compliance Audit [dec_switch_drata, proj_audit_q3]",
+Q6,Multi-hop,vector,"Which decisions did Grace Patel approve, and for which projects?",0.5,1,0.667,,False,True,False,2.73,493,115,,The assistant correctly identifies the decisions but omits the projects for two of them.,All claims about Grace Patel's approved decisions are supported by the context.,"Grace Patel approved the following decisions for the respective projects:
+
+- **Mandate MFA for all production system access** 
+  - Project: Zero-Trust Security Rollout [proj_zero_trust]
+  
+- **Standardize on PyTorch for ML training pipelines** 
+  - Project: Not specified in the context.
+  
+- **Replace Vanta with Drata for audit evidence automation** 
+  - Project: Not specified in the context.
+
+Missing information: The specific projects associated with the decisions to standardize on PyTorch and replace Vanta with Drata are not provided.",
+Q7,Path,graph,How is Eve Johnson connected to Snowflake?,1,1,1.0,,False,True,True,5.77,2494,167,router:graph -> write_cypher -> run_cypher:1 rows -> grade:sufficient -> answer,The assistant accurately describes Eve Johnson's role and the connection to Snowflake.,All claims in the answer are supported by the context provided.,"- Eve Johnson is the Executive Sponsor for the Pricing Model Redesign project [p_eve, proj_pricing].
+- The Pricing Model Redesign project used the Snowflake tool [proj_pricing, tool_snowflake].",
+Q7,Path,vector,How is Eve Johnson connected to Snowflake?,1,1,1.0,,False,True,True,2.16,352,56,,The assistant's answer includes all key facts from the reference answer and adds additional relevant details.,All claims are directly supported by the context provided.,"- Eve Johnson is the CFO on the Finance team [p_eve].
+- She worked on the Pricing Model Redesign project, where she served as the Executive Sponsor [p_eve].
+- The Pricing Model Redesign project utilized the Snowflake tool [tool_snowflake].",
+Q8,Filter + hop,graph,"Which in-progress projects is Bob on, and who leads them?",1,1,1.0,,False,True,True,5.19,2608,184,router:graph -> write_cypher -> run_cypher:2 rows -> grade:sufficient -> answer,The assistant correctly lists the projects Bob is involved in and their respective leaders.,All claims about Bob Martinez's involvement and project leaders are supported by the context.,"Bob Martinez is currently involved in the following in-progress projects:
+
+- **ML Recommendation Engine**
+  - **Leader:** David Kim [proj_ml_recs], [p_david]
+  
+- **Zero-Trust Security Rollout**
+  - **Leader:** Frank Lee [proj_zerotrust], [p_frank]",
+Q8,Filter + hop,vector,"Which in-progress projects is Bob on, and who leads them?",0.5,1,0.5,,False,True,True,2.12,438,68,,The assistant correctly identifies the projects Bob is on but incorrectly names the leader of the Zero-Trust Security Rollout.,All claims about Bob Martinez's involvement in projects are supported by the context.,"Bob Martinez is currently involved in the following in-progress projects:
+
+- **ML Recommendation Engine** (led by an unspecified leader) [p_bob].
+- **Zero-Trust Security Rollout** (led by Grace Patel) [p_bob, p_grace].
+
+The leader for the ML Recommendation Engine is not mentioned in the context.",
+Q9,Skill + hop,graph,Who has SOC2 expertise and what projects did they work on?,0.5,1,1.0,,False,True,True,5.78,2994,251,router:graph -> write_cypher -> run_cypher:3 rows -> grade:sufficient -> answer,The assistant omitted Frank Lee's involvement in the Zero-Trust Security Rollout.,"All claims about roles, projects, and expertise levels are supported by the context.","- **Alice Chen** has SOC2 expertise and worked on:
+  - Q3 2025 SOC2 Compliance Audit as Lead [proj_audit_q3]
+  - Q3 2024 SOC2 Compliance Audit as Lead [proj_audit_2024]
+
+- **Frank Lee** has intermediate SOC2 expertise and worked on:
+  - Q3 2025 SOC2 Compliance Audit as Security Reviewer [proj_audit_q3]
+
+- **Henry Okafor** has intermediate SOC2 expertise and worked on:
+  - Q3 2024 SOC2 Compliance Audit as Evidence Analyst [proj_audit_2024] 
+
+No additional projects or expertise levels were mentioned for Frank Lee and Henry Okafor beyond their involvement in the SOC2 audits.",
+Q9,Skill + hop,vector,Who has SOC2 expertise and what projects did they work on?,0.5,1,1.0,,False,True,True,3.85,623,201,,"The assistant correctly identifies Alice Chen, Frank Lee, and Henry Okafor with their SOC2 expertise and projects, but omits Frank Lee's Zero-Trust Security Rollout project and adds an irrelevant person, Bob Martinez.",All claims about roles and expertise are supported by the context.,"- **Alice Chen** has SOC2 expertise (level: Expert) and worked on the following projects:
+  - Q3 2024 SOC2 Compliance Audit [proj_audit_2024] (role: Lead)
+  - Q3 2025 SOC2 Compliance Audit [proj_audit_q3] (role: Lead)
+
+- **Frank Lee** has SOC2 expertise (level: Intermediate) and worked on:
+  - Q3 2025 SOC2 Compliance Audit [proj_audit_q3] (role: Security Reviewer)
+
+- **Henry Okafor** has SOC2 expertise (level: Intermediate) and worked on:
+  - Q3 2024 SOC2 Compliance Audit [proj_audit_2024] (role: Evidence Analyst)
+
+- **Bob Martinez** worked on:
+  - Q3 2025 SOC2 Compliance Audit [proj_audit_q3] (role: Evidence Engineer)
+
+No additional projects or details about their specific contributions beyond roles are provided.",
+Q10,Semantic,graph,What is our policy on production access?,1,1,1.0,,False,True,True,4.06,968,111,router:semantic -> anchor:5 seeds -> answer,The assistant's answer includes all key facts from the reference and adds extra details without errors.,All claims in the answer are supported by the context provided.,"Our policy on production access includes the following key points:
+
+- All production access requires Multi-Factor Authentication (MFA) via Okta [doc_security_policy].
+- Device posture checks are enforced for any access to customer data [doc_security_policy].
+- Quarterly penetration tests are conducted against the customer-facing API [doc_security_policy].
+- The mandate for MFA was approved by Frank Lee and Grace Patel [dec_mfa_mandate]. 
+
+This covers the policy details, but does not specify any exceptions or additional requirements that may exist.",
+Q10,Semantic,vector,What is our policy on production access?,0.5,1,1.0,,False,True,True,2.21,504,75,,The assistant's answer includes all key facts from the reference but adds an incorrect date for the MFA mandate.,All claims in the answer are directly supported by the context provided.,"- All production access requires MFA via Okta [doc_security_policy].
+- Device posture checks are enforced for any access to customer data [doc_security_policy].
+- Quarterly penetration tests are conducted against the customer-facing API [doc_security_policy].
+- The mandate for MFA for all production system access was decided on 2025-10-05 [dec_mfa_mandate].",
+Q11,Detail in text,graph,What NRR lift did the pricing proposal project?,1,1,1.0,,False,True,True,2.91,1130,29,router:semantic -> anchor:4 seeds -> answer,"The assistant's answer matches the reference answer exactly, providing the correct NRR lift percentage and time frame.",The claim about a 22% lift in net revenue retention is directly supported by the context.,The pricing proposal projects a 22% lift in net revenue retention over 12 months [doc_pricing_memo].,
+Q11,Detail in text,vector,What NRR lift did the pricing proposal project?,1,1,1.0,,False,True,True,4.53,609,24,,"The assistant's answer matches the reference answer exactly, providing the correct NRR lift and time frame.",The claim about a 22% lift in net revenue retention is directly supported by the context.,The pricing proposal projects a 22% lift in net revenue retention over 12 months [doc_pricing_memo].,
+Q12,Unanswerable,graph,Who approved the migration to GCP?,1,,,,True,True,False,4.54,2511,78,router:graph -> write_cypher -> run_cypher:0 rows -> anchor:4 seeds -> answer,"The assistant correctly states that it cannot find the information in the knowledge base, aligning with the reference answer.",,I couldn't find this in the org knowledge base.,
+Q12,Unanswerable,vector,Who approved the migration to GCP?,1,,,,True,True,False,1.15,510,10,,The assistant correctly states that it cannot find information about the GCP migration approval in the knowledge base.,,I couldn't find this in the org knowledge base.,
+Q13,Temporal + why,graph,"What did we use for audit evidence before Drata, and why did we switch?",1,1,1.0,,False,True,True,3.7,1026,69,router:semantic -> anchor:4 seeds -> answer,The assistant's answer includes all key facts from the reference and is accurate.,All claims are supported by the context provided.,"- Before Drata, we used Vanta for audit evidence collection [dec_switch_drata].
+- We switched to Drata because Vanta required manual evidence uploads for AWS controls, which contributed to findings in the 2024 audit. Drata offers continuous control monitoring that automates evidence collection [dec_switch_drata].",
+Q13,Temporal + why,vector,"What did we use for audit evidence before Drata, and why did we switch?",1,1,1.0,,False,True,True,2.17,552,66,,The assistant's answer includes all key facts from the reference and is accurate.,All claims in the answer are directly supported by the context provided.,"- Before Drata, we used Vanta for audit evidence collection [doc_audit_2024].
+- We switched to Drata because Vanta required manual evidence uploads for AWS controls, which contributed to findings in the 2024 audit. Drata offers continuous control monitoring that automates evidence collection [dec_switch_drata].",
+Q14,Multi-hop,graph,"Who does Bob report to, and what decisions has that person approved?",1,1,1.0,,False,True,True,5.04,2758,202,router:graph -> write_cypher -> run_cypher:1 rows -> grade:sufficient -> answer,The assistant correctly identifies who Bob reports to and lists all the decisions approved by that person.,All claims in the answer are directly supported by the context provided.,"- Bob Martinez reports to Grace Patel [p_bob, p_grace].
+- Grace Patel has approved the following decisions:
+  - Mandate MFA for all production system access on 2025-10-05 [dec_mfa_mandate].
+  - Standardize on PyTorch for ML training pipelines on 2025-08-10 [dec_pytorch].
+  - Replace Vanta with Drata for audit evidence automation on 2025-06-10 [dec_switch_drata].",
+Q14,Multi-hop,vector,"Who does Bob report to, and what decisions has that person approved?",0.5,1,0.25,,False,True,True,1.67,520,26,,The assistant correctly identifies who Bob reports to but fails to list the decisions approved by Grace Patel.,All claims are supported by the context.,"- Bob Martinez reports to Grace Patel [p_bob].
+- Grace Patel's approved decisions are not mentioned in the provided context.",

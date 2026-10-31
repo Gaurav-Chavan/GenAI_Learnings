@@ -1,0 +1,15 @@
+# Replit configuration. Add OPENAI_API_KEY, NEO4J_URI, NEO4J_USERNAME, NEO4J_PASSWORD,
+# NEO4J_DATABASE (and optionally APP_PASSWORD) in the Secrets panel - never upload .env.
+# The Chroma index is built automatically on the first start (chroma_db/ is not in git).
+
+modules = ["python-3.12"]
+
+run = "uv sync --frozen --no-dev && uv run streamlit run app.py --server.port 8501 --server.address 0.0.0.0"
+
+[deployment]
+build = ["sh", "-c", "uv sync --frozen --no-dev"]
+run = ["sh", "-c", "uv run --no-dev streamlit run app.py --server.port 8501 --server.address 0.0.0.0"]
+
+[[ports]]
+localPort = 8501
+externalPort = 80

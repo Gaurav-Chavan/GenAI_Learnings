@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OrgGraph RAG — Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+@page { size: 297mm 210mm; margin: 0; }
+:root {
+  --violet: #6250d6; --lav: #b9b0f0; --lav-soft: #f1eefc; --ink: #1d1b2e; --ink2: #4a4760; --mute: #8a87a0;
+  --blue: #2a78d6; --orange: #eb6834; --green: #0ca30c;
+  --soft-blue: #eaf2fd; --soft-green: #e8f6ee; --soft-yellow: #fdf3dc; --soft-orange: #fdeee7; --soft-pink: #fcecf2;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Patrick Hand", "Comic Sans MS", cursive; color: var(--ink); background: #dcd9ea; font-size: 11.5pt; line-height: 1.28; }
+.pg { width: 297mm; height: 210mm; background: #fff; position: relative; overflow: hidden; padding: 8mm 11mm 0;
+      break-after: page; margin: 0 auto 14px; }
+.pg:last-child { break-after: auto; }
+@media print { body { background: none; } .pg { margin: 0; } }
+
+/* header */
+.top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4mm; }
+h1 { font-size: 31pt; font-weight: 400; line-height: 1; letter-spacing: .2px; }
+h1 .sp { color: #8f83e6; font-size: 20pt; vertical-align: super; }
+.sub { font-size: 13.5pt; color: var(--ink2); margin-top: 1.5mm; }
+.badge { border: 1.8px solid var(--lav); background: var(--lav-soft); color: var(--violet); border-radius: 10px;
+         padding: 1.6mm 4mm; font-size: 13.5pt; white-space: nowrap; }
+
+/* building blocks */
+.box { border: 1.8px solid var(--lav); border-radius: 14px; padding: 2.6mm 3.4mm; background: #fff; }
+.bh { display: flex; align-items: center; gap: 2mm; color: var(--violet); font-size: 13.5pt; margin-bottom: 1.4mm; line-height: 1.1; }
+.n { width: 6.4mm; height: 6.4mm; border-radius: 50%; background: var(--violet); color: #fff; font-size: 11pt;
+     display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.fill-blue { background: var(--soft-blue); } .fill-green { background: var(--soft-green); }
+.fill-yellow { background: var(--soft-yellow); } .fill-orange { background: var(--soft-orange); }
+.fill-lav { background: var(--lav-soft); } .fill-pink { background: var(--soft-pink); }
+.hl { color: var(--blue); } .hlo { color: var(--orange); } .hlv { color: var(--violet); }
+.small { font-size: 10.5pt; color: var(--ink2); }
+.tiny { font-size: 9.5pt; color: var(--ink2); }
+.ok::before { content: "✅ "; }
+ul.list { list-style: none; } ul.list li { margin-bottom: .8mm; padding-left: 4.5mm; position: relative; }
+ul.list li::before { content: "•"; color: var(--violet); position: absolute; left: 0; }
+.pill { display: inline-block; border: 1.6px solid var(--lav); background: var(--lav-soft); border-radius: 99px;
+        padding: .4mm 3mm; margin: 0 1.4mm 1.4mm 0; font-size: 11pt; }
+.row { display: flex; gap: 3.5mm; }
+.col { display: flex; flex-direction: column; gap: 3mm; }
+.arrow { color: var(--violet); font-size: 17pt; display: flex; align-items: center; justify-content: center; line-height: 1; }
+.flow { display: flex; align-items: stretch; gap: 1.5mm; }
+.flow .step { flex: 1; border: 1.8px solid var(--lav); border-radius: 12px; padding: 1.8mm 2mm; text-align: center; font-size: 10.5pt; background: #fff; }
+.flow .step .e { font-size: 16pt; display: block; line-height: 1.15; }
+.flow .step b { font-weight: 400; color: var(--violet); font-size: 12pt; display: block; }
+
+/* code */
+code { font-family: "JetBrains Mono", monospace; font-size: .74em; background: var(--lav-soft); border-radius: 4px; padding: 0 1.2mm; color: var(--ink); }
+.code { font-family: "JetBrains Mono", monospace; font-size: 7.3pt; line-height: 1.5; background: #faf9ff;
+        border: 1.6px solid var(--lav); border-radius: 12px; padding: 2.2mm 3mm 2.2mm 12mm; position: relative; white-space: pre; color: #2b2840; }
+.code::before { content: "</>"; position: absolute; left: 2.5mm; top: 2.2mm; width: 7mm; height: 7mm; border-radius: 6px;
+                background: #8f83e6; color: #fff; font-size: 7pt; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.code.plain { padding-left: 3mm; } .code.plain::before { display: none; }
+.k { color: var(--violet); font-weight: 600; } .s { color: var(--blue); } .c { color: var(--mute); } .f { color: #c2410c; }
+.cheat .code { font-size: 7.2pt; padding: 1.6mm 2.4mm; white-space: pre-wrap; margin-top: 1mm; }
+.cheat .code::before { display: none; }
+.p5 .code { font-size: 6.9pt; }
+.use { font-size: 10.5pt; color: var(--ink2); margin-top: 1.2mm; }
+/* syntax must look exactly as typed: no "->" / "!=" ligatures */
+code, .code, svg text { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+.row > *, .col > * { min-width: 0; }
+
+/* takeaway */
+.take { position: absolute; left: 11mm; right: 11mm; bottom: 5.5mm; border: 1.8px solid var(--lav); background: #fbfaff;
+        border-radius: 14px; padding: 1.8mm 4mm; font-size: 13.5pt; display: flex; align-items: center; gap: 3mm; }
+.take .chk { width: 7.5mm; height: 7.5mm; border-radius: 50%; border: 2px solid var(--green); color: var(--green);
+             display: flex; align-items: center; justify-content: center; font-size: 12pt; flex: none; }
+.take .pn { margin-left: auto; color: var(--mute); font-size: 11pt; white-space: nowrap; }
+.spark { position: absolute; color: #8f83e6; font-size: 15pt; line-height: 1; }
+
+/* stats + screenshots */
+.stat { border: 1.8px solid var(--lav); border-radius: 14px; padding: 2mm 3mm; background: #fff; }
+.stat .num { font-size: 22pt; line-height: 1; }
+.stat .lbl { font-size: 10.5pt; color: var(--ink2); }
+.shot { width: 100%; display: block; border: 1.6px solid var(--lav); border-radius: 10px; }
+.cap { font-size: 10.5pt; color: var(--ink2); margin-top: 1mm; }
+.legend { display: flex; gap: 4mm; font-size: 11pt; color: var(--ink2); }
+.legend i { display: inline-block; width: 3mm; height: 3mm; border-radius: 1mm; margin-right: 1.2mm; vertical-align: -.2mm; }
+.bubble { border: 1.8px solid var(--lav); border-radius: 18px; padding: 3mm; background: #fff; position: relative; }
+.bubble::after { content: ""; position: absolute; bottom: -3.2mm; left: 10mm; width: 5mm; height: 5mm; background: #fff;
+                 border-right: 1.8px solid var(--lav); border-bottom: 1.8px solid var(--lav); transform: rotate(45deg); }
+table.tb { width: 100%; border-collapse: collapse; font-size: 10.5pt; }
+table.tb td { padding: .9mm 1.6mm; border-bottom: 1.2px dashed #ddd8f5; vertical-align: top; }
+table.tb td:first-child { white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<!-- ============ 1 · BIG PICTURE ============ -->
+<section class="pg">
+  <span class="spark" style="left:118mm; top:2.5mm">✦</span><span class="spark" style="left:205mm; top:27mm">✦</span>
+  <span class="spark" style="right:9mm; top:62mm">✦</span><span class="spark" style="left:7mm; top:150mm">✦</span>
+  <div class="top">
+    <div><h1>OrgGraph RAG <span class="sp">✦</span></h1>
+      <div class="sub">GraphRAG for organizational knowledge — people, projects &amp; decisions as a graph 🕸️</div></div>
+    <div class="badge">Week 2 · Project 3 · Study guide</div>
+  </div>
+
+  <div class="row" style="align-items:flex-start">
+    <!-- user -->
+    <div class="col" style="width:58mm">
+      <div class="bubble"><div style="font-size:30pt; line-height:1">🧑‍💼</div>
+        <div style="font-size:13pt; margin-top:1.5mm">"Who does Bob report to, and what decisions has that person approved?"</div></div>
+      <div style="margin-top:5mm"><span class="pill">who / which / how many</span><span class="pill">relationships</span>
+        <span class="pill">"the last X"</span><span class="pill">why was it decided?</span></div>
+      <div class="box fill-lav small"><b class="hlv" style="font-weight:400; font-size:12.5pt">🎯 The one-liner</b><br>
+        Help PMs, tech leads &amp; execs answer who/what/why questions from an org knowledge graph in a Streamlit chat —
+        <span class="hl">≥ 90% correct</span> on multi-hop, <span class="hl">&lt; 6 s p95</span>.</div>
+    </div>
+    <div class="arrow" style="height:40mm">➜</div>
+
+    <!-- flow -->
+    <div class="col" style="flex:1">
+      <div class="box fill-blue"><div class="bh"><span class="n">1</span>💬 Streamlit chat</div>
+        <div class="small">Ask once → both systems answer in parallel, side by side</div></div>
+      <div class="box"><div class="bh"><span class="n">2</span>🔀 LangGraph router</div>
+        <div class="small">graph · semantic · out of scope → refuse</div></div>
+      <div class="row">
+        <div class="box fill-blue" style="flex:1"><div class="bh"><span class="n">3</span>🕸️ GraphRAG</div>
+          <div class="small">Text2Cypher → <b class="hl" style="font-weight:400">Neo4j Aura</b> → exact rows<br>+ anchor fallback</div></div>
+        <div class="box fill-orange" style="flex:1"><div class="bh"><span class="n">4</span>📚 Vector RAG</div>
+          <div class="small">entity cards → <b class="hlo" style="font-weight:400">Chroma</b> → top-4 by cosine</div></div>
+      </div>
+      <div class="box fill-green"><div class="bh"><span class="n">5</span>🤖 Shared answer step</div>
+        <div class="small">same gpt-4o-mini prompt · <code>[id]</code> citations · one refusal sentence</div></div>
+      <div class="box fill-yellow"><div class="bh"><span class="n">6</span>📊 Evaluation</div>
+        <div class="small">14 questions × 2 systems · gpt-4o judge · human review</div></div>
+    </div>
+    <div class="arrow" style="height:40mm">➜</div>
+
+    <!-- stats -->
+    <div class="col" style="width:66mm">
+      <div class="stat"><div class="num"><span class="hl">@@G_CORRECT@@</span> <span class="small">vs</span> <span class="hlo">@@V_CORRECT@@</span></div>
+        <div class="lbl">avg correctness · GraphRAG vs vector</div></div>
+      <div class="stat"><div class="num"><span class="hl">@@G_FULL@@/@@N@@</span> <span class="small">vs</span> <span class="hlo">@@V_FULL@@/@@N@@</span></div>
+        <div class="lbl">fully correct answers</div></div>
+      <div class="stat"><div class="num">44 · 75</div><div class="lbl">entities · relationships in Neo4j</div></div>
+      <div class="stat"><div class="num">@@G_P95@@ s</div><div class="lbl">GraphRAG p95 latency ⏱️ (target &lt; 6 s)</div></div>
+      <div class="stat"><div class="num">@@WINS_G@@ · @@WINS_T@@ · @@WINS_V@@</div><div class="lbl">GraphRAG wins · ties · vector wins</div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:4mm"><span class="pill">🟢 Neo4j Aura</span><span class="pill">🦜 LangChain</span><span class="pill">🕸️ LangGraph</span>
+    <span class="pill">🧠 OpenAI gpt-4o · gpt-4o-mini</span><span class="pill">🔢 text-embedding-3-small</span><span class="pill">🎨 Chroma</span>
+    <span class="pill">🎈 Streamlit</span><span class="pill">⚡ uv</span><span class="pill">🧪 pytest · 51 tests</span></div>
+  <div class="code" style="margin-top:2mm"><span class="c"># the whole project in five commands</span>
+uv sync  <span class="k">→</span>  uv run python -m orggraph_rag.ingest  <span class="k">→</span>  uv run python -m orggraph_rag.vector_rag --build
+         <span class="k">→</span>  uv run python -m orggraph_rag.evaluate  <span class="k">→</span>  uv run streamlit run app.py</div>
+
+  <div class="take"><span class="chk">✓</span><span>Vector search finds <span class="hl">similar text</span>. GraphRAG follows <span class="hl">relationships</span>. The UI shows <span class="hl">both, side by side</span>.</span><span class="pn">1 / 10</span></div>
+</section>
+
+<!-- ============ 2 · GRAPH MODEL ============ -->
+<section class="pg">
+  <span class="spark" style="left:150mm; top:2.5mm">✦</span><span class="spark" style="right:10mm; top:120mm">✦</span>
+  <div class="top">
+    <div><h1>Modeling knowledge as a graph <span class="sp">✦</span></h1>
+      <div class="sub">Nodes are things people ask about · relationships are how they connect 🔗</div></div>
+    <div class="badge">Concept · Graph data model</div>
+  </div>
+  <div class="row">
+    <div class="box" style="width:168mm; padding:2mm 2mm 0">
+      <div class="bh" style="margin-left:2mm"><span class="n">1</span>Schema · 7 node types · 10 relationship types</div>
+      @@SCHEMA@@
+    </div>
+    <div class="col" style="flex:1">
+      <div class="box fill-blue"><div class="bh"><span class="n">2</span>🧩 Node = entity</div>
+        <div class="small">A <b class="hl" style="font-weight:400">label</b> (<code>:Person</code>) + <b class="hl" style="font-weight:400">properties</b>
+          (<code>name</code>, <code>role</code>, <code>started</code>…). Every node also gets a shared <code>:Entity</code> label
+          with <code>id · name · description · embedding</code>.</div></div>
+      <div class="box fill-lav"><div class="bh"><span class="n">3</span>➡️ Relationship = typed &amp; directed</div>
+        <div class="small"><code>(Person)-[:WORKED_ON]->(Project)</code>. Relationships carry properties too:
+          <code>{role: "Tech Lead"}</code>, <code>{level: "Expert"}</code>.</div></div>
+      <div class="box fill-yellow"><div class="bh"><span class="n">4</span>🪤 Built-in traps</div>
+        <ul class="list small">
+          <li>older <b class="hlo" style="font-weight:400">2024 audit</b> → "the <i>last</i> audit" needs dates</li>
+          <li><b class="hlo" style="font-weight:400">Henry · Vanta</b> only belong to 2024 (distractors)</li>
+          <li><code>REPORTS_TO</code> → two-hop questions</li>
+          <li><code>BASED_ON</code> → "why" provenance</li></ul></div>
+      <div class="box fill-green small"><div class="bh"><span class="n">5</span>📈 32 → 44 nodes · 48 → 75 edges</div>
+        Original <code>mock_data.py</code> untouched; extension in <code>mock_data_ext.py</code>. Offline tests pin the gold answers.</div>
+    </div>
+  </div>
+  <div class="code" style="margin-top:3mm"><span class="c"># an edge is a tuple: (source_id, target_id, TYPE, properties)</span>
+(<span class="s">"p_alice"</span>, <span class="s">"proj_audit_q3"</span>, <span class="s">"WORKED_ON"</span>, {<span class="s">"role"</span>: <span class="s">"Lead"</span>})        <span class="c"># Alice led the 2025 audit</span>
+SCHEMA = [(<span class="s">"Person"</span>, <span class="s">"WORKED_ON"</span>, <span class="s">"Project"</span>), (<span class="s">"Person"</span>, <span class="s">"REPORTS_TO"</span>, <span class="s">"Person"</span>), ...]   <span class="c"># validates every edge · fed to Text2Cypher</span></div>
+  <div class="take"><span class="chk">✓</span><span>Model what users ask: <span class="hl">who</span> → Person · <span class="hl">what</span> → Project/Tool · <span class="hl">why</span> → Decision → BASED_ON → Document.</span><span class="pn">2 / 10</span></div>
+</section>
+
+<!-- ============ 3 · NEO4J + CYPHER ============ -->
+<section class="pg">
+  <span class="spark" style="left:160mm; top:2.5mm">✦</span><span class="spark" style="right:8mm; top:95mm">✦</span>
+  <div class="top">
+    <div><h1>Loading Neo4j — Cypher you'll reuse <span class="sp">✦</span></h1>
+      <div class="sub"><code>ingest.py</code> is idempotent: run it twice, get the same graph 🔁</div></div>
+    <div class="badge">Syntax · Neo4j + Cypher</div>
+  </div>
+  <div class="flow">
+    <div class="step"><span class="e">📦</span><b>data</b>mock_data_ext</div><div class="arrow">➜</div>
+    <div class="step"><span class="e">🔒</span><b>constraints</b>unique ids</div><div class="arrow">➜</div>
+    <div class="step"><span class="e">🧩</span><b>MERGE nodes</b>batched UNWIND</div><div class="arrow">➜</div>
+    <div class="step"><span class="e">🔗</span><b>MERGE edges</b>+ properties</div><div class="arrow">➜</div>
+    <div class="step"><span class="e">🧠</span><b>embed</b>1536-d vectors</div><div class="arrow">➜</div>
+    <div class="step"><span class="e">🔎</span><b>indexes</b>vector + full-text</div><div class="arrow">➜</div>
+    <div class="step"><span class="e">✅</span><b>verify</b>counts + smoke tests</div>
+  </div>
+  <div class="cheat" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:3mm; margin-top:3mm">
+    <div class="box"><div class="bh"><span class="n">1</span>🔒 Unique constraint</div>
+      <div class="code"><span class="k">CREATE CONSTRAINT</span> entity_id <span class="k">IF NOT EXISTS</span>
+<span class="k">FOR</span> (n:Entity) <span class="k">REQUIRE</span> n.id <span class="k">IS UNIQUE</span></div></div>
+    <div class="box"><div class="bh"><span class="n">2</span>🧩 Batch upsert nodes</div>
+      <div class="code"><span class="k">UNWIND</span> $rows <span class="k">AS</span> row
+<span class="k">MERGE</span> (n:Entity {id: row.id})
+<span class="k">SET</span> n:Person, n += row.props,
+    n.embedding = row.embedding</div></div>
+    <div class="box"><div class="bh"><span class="n">3</span>🔗 Upsert relationships</div>
+      <div class="code"><span class="k">MATCH</span> (a:Entity {id: row.src}),
+      (b:Entity {id: row.dst})
+<span class="k">MERGE</span> (a)-[r:WORKED_ON]->(b)
+<span class="k">SET</span> r += row.props</div></div>
+    <div class="box"><div class="bh"><span class="n">4</span>🧠 Vector index</div>
+      <div class="code"><span class="k">CREATE VECTOR INDEX</span> entity_embeddings
+<span class="k">FOR</span> (n:Entity) <span class="k">ON</span> (n.embedding)
+<span class="k">OPTIONS</span> {indexConfig: {
+  `vector.dimensions`: <span class="s">1536</span>,
+  `vector.similarity_function`: <span class="s">'cosine'</span>}}</div></div>
+    <div class="box"><div class="bh"><span class="n">5</span>🔎 Search the indexes</div>
+      <div class="code"><span class="k">CALL</span> db.index.vector.queryNodes(
+  <span class="s">'entity_embeddings'</span>, <span class="s">4</span>, $v) <span class="k">YIELD</span> node, score
+<span class="k">CALL</span> db.index.fulltext.queryNodes(
+  <span class="s">'entity_names'</span>, <span class="s">'okta~'</span>) <span class="k">YIELD</span> node</div></div>
+    <div class="box"><div class="bh"><span class="n">6</span>🐍 Python driver</div>
+      <div class="code">driver.execute_query(cypher, params,
+    database_=settings.neo4j_database,
+    routing_=RoutingControl.READ).records</div></div>
+  </div>
+  <div class="row" style="margin-top:3mm">
+    <div class="box fill-yellow small" style="flex:1"><b class="hlv" style="font-weight:400; font-size:12.5pt">💡 MERGE vs CREATE</b><br>
+      <code>MERGE</code> = find-or-create, so re-runs never duplicate. <code>CREATE</code> always adds a new node.</div>
+    <div class="box fill-pink small" style="flex:1"><b class="hlv" style="font-weight:400; font-size:12.5pt">⚠️ Gotcha</b><br>
+      <code>CALL {…} IN TRANSACTIONS</code> needs an auto-commit <code>session.run</code>, not <code>execute_query</code>.</div>
+    <div class="box fill-blue small" style="flex:1"><b class="hlv" style="font-weight:400; font-size:12.5pt">🧮 Why 50 / 81 in Browser?</b><br>
+      44 entities + 6 <code>:DocChunk</code> nodes; 75 edges + 6 <code>PART_OF</code> links.</div>
+    <div class="box fill-green small" style="flex:1"><b class="hlv" style="font-weight:400; font-size:12.5pt">🛡️ Safe by default</b><br>
+      Stops if another project's data is in the DB; <code>--clear-db</code> to wipe it.</div>
+  </div>
+  <div class="code" style="margin-top:3mm"><span class="c">$ uv run python -m orggraph_rag.ingest          # prints a verification report every run</span>
+Merged 44 entity nodes. · Merged 75 relationships. · Created 6 document chunks.
+[   <span class="s">OK</span>   ] Entity total: 44 (expected 44)          [   <span class="s">OK</span>   ] Relationship total: 75 (expected 75)
+[   <span class="s">OK</span>   ] entity_embeddings: ONLINE               [   <span class="s">OK</span>   ] entity_names: ONLINE
+Last audit (graph): Q3 2025 SOC2 Compliance Audit → people: ['Alice Chen', 'Bob Martinez', 'Frank Lee']    <span class="k">Verification PASSED</span></div>
+  <div class="take"><span class="chk">✓</span><span><span class="hl">MERGE</span> makes ingestion re-runnable; <span class="hl">vector</span> + <span class="hl">full-text</span> indexes make the graph searchable by meaning and by name.</span><span class="pn">3 / 10</span></div>
+</section>
+
+<!-- ============ 4 · VECTOR BASELINE ============ -->
+<section class="pg">
+  <span class="spark" style="left:140mm; top:2.5mm">✦</span><span class="spark" style="right:9mm; top:110mm">✦</span>
+  <div class="top">
+    <div><h1>Vector RAG baseline — a fair fight <span class="sp">✦</span></h1>
+      <div class="sub">Same facts as the graph, so the comparison tests <i>retrieval</i>, not data access ⚖️</div></div>
+    <div class="badge">Concept · Chunking + top-k</div>
+  </div>
+  <div class="flow">
+    <div class="step"><span class="e">🕸️</span><b>graph data</b>44 nodes · 75 edges</div><div class="arrow">➜</div>
+    <div class="step"><span class="e">📝</span><b>entity cards</b>node + all its edges</div><div class="arrow">➜</div>
+    <div class="step"><span class="e">🧠</span><b>embed</b>text-embedding-3-small</div><div class="arrow">➜</div>
+    <div class="step"><span class="e">🎨</span><b>Chroma</b>cosine · 44 cards</div><div class="arrow">➜</div>
+    <div class="step"><span class="e">🔝</span><b>top-4</b>most similar</div><div class="arrow">➜</div>
+    <div class="step"><span class="e">🤖</span><b>answer</b>gpt-4o-mini</div>
+  </div>
+  <div class="row" style="margin-top:3mm">
+    <div class="col" style="width:112mm">
+      <div class="box"><div class="bh"><span class="n">1</span>📝 One entity card = one chunk</div>
+        <div class="code plain" style="font-size:7pt; white-space:pre-wrap">Person: Bob Martinez, Senior Engineer on the Platform team.
+Worked on: Q3 2025 SOC2 Compliance Audit (role: Evidence Engineer);
+  ML Recommendation Engine (role: Platform Engineer); Zero-Trust …
+Skills: Python (level: Expert); AWS (level: Expert).
+Member of team: Platform.
+Reports to: Grace Patel.</div>
+        <div class="tiny" style="margin-top:1.2mm">37–555 chars per card → well inside the embedding model's limit, so no splitting needed.</div></div>
+      <div class="box fill-orange small"><div class="bh"><span class="n">2</span>🙅 Why not embed the 6 documents?</div>
+        They never say <i>who approved</i> a decision or <i>who</i> was on the audit team. A document-only baseline
+        would lose for lack of data — an unfair test.</div>
+    </div>
+    <div class="box" style="width:62mm"><div class="bh"><span class="n">3</span>🔝 The top-k ceiling</div>
+      @@TOPK@@
+      <div class="small" style="margin-top:1.5mm"><span class="hlo">4 of 44</span> cards reach the LLM. "Who worked on
+        more than one project?" needs <i>every</i> person — no k fits "all entities that satisfy X".</div>
+      <div class="box fill-orange tiny" style="margin-top:2mm; padding:1.6mm 2.4mm">📉 <b class="hlo" style="font-weight:400">In the eval:</b> vector RAG found 2 of 4 people for Q3 and refused Q4 (tools used by several projects) although the answer existed.</div></div>
+    <div class="col" style="flex:1">
+      <div class="box fill-green"><div class="bh"><span class="n">4</span>🤝 Shared answer step</div>
+        <ul class="list small"><li>use <b class="hl" style="font-weight:400">ONLY</b> the context</li>
+          <li>cite ids: <code>[proj_audit_q3]</code></li>
+          <li>refuse with one exact sentence</li>
+          <li>same model + prompt for both systems</li></ul></div>
+      <div class="box fill-blue small"><div class="bh"><span class="n">5</span>🧪 Test that keeps it fair</div>
+        Every relationship must appear on <b class="hl" style="font-weight:400">both</b> endpoint cards.</div>
+      <div class="box fill-yellow small"><div class="bh"><span class="n">6</span>📏 Chunk-size rule of thumb</div>
+        Match chunk size to the embedding model and the content: a card is one idea, so keep it whole. Documents use
+        <code>RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=100)</code> — short docs stay one chunk, long ones split.</div>
+    </div>
+  </div>
+  <div class="code" style="margin-top:3mm">Chroma.from_documents(docs, OpenAIEmbeddings(model=<span class="s">"text-embedding-3-small"</span>), ids=ids, collection_name=<span class="s">"org_entity_cards"</span>,
+                      persist_directory=<span class="s">"chroma_db"</span>, collection_metadata={<span class="s">"hnsw:space"</span>: <span class="s">"cosine"</span>})
+hits = store.similarity_search_with_relevance_scores(question, k=<span class="s">4</span>)          <span class="c"># [(Document, score), ...]</span>
+answer = (ANSWER_PROMPT | ChatOpenAI(model=<span class="s">"gpt-4o-mini"</span>, temperature=<span class="s">0</span>)).invoke({<span class="s">"question"</span>: q, <span class="s">"context"</span>: ctx})</div>
+  <div class="take"><span class="chk">✓</span><span>Rich chunks make vector RAG <span class="hl">strong on lookups</span> — but <span class="hlo">top-k</span> is a hard ceiling for counting and hops.</span><span class="pn">4 / 10</span></div>
+</section>
+
+<!-- ============ 5 · TEXT2CYPHER ============ -->
+<section class="pg">
+  <span class="spark" style="left:150mm; top:2.5mm">✦</span><span class="spark" style="right:8mm; top:128mm">✦</span>
+  <div class="top">
+    <div><h1>Text2Cypher — question ➜ query <span class="sp">✦</span></h1>
+      <div class="sub">The LLM writes Cypher from the schema; the graph does the exact work 🧠➡️🧾</div></div>
+    <div class="badge">Syntax · Cypher patterns</div>
+  </div>
+  <div class="row">
+    <div class="col" style="width:66mm">
+      <div class="box fill-lav"><div class="bh"><span class="n">1</span>🧾 What the prompt holds</div>
+        <ul class="list small">
+          <li>📐 schema: labels, properties, edge directions</li>
+          <li>📇 live catalog of every entity name</li>
+          <li>🏷️ real role &amp; level values</li>
+          <li>🧪 7 few-shot patterns (not eval questions)</li>
+          <li>📏 rules: CONTAINS, dates, collect(DISTINCT), LIMIT 50</li></ul></div>
+      <div class="box fill-pink small"><div class="bh"><span class="n">2</span>🛡️ Two safety guards</div>
+        ① regex rejects <code>CREATE MERGE DELETE SET DROP</code>…<br>② runs in a <b class="hl" style="font-weight:400">READ transaction</b><br>
+        ↻ one retry with the error message</div>
+      <div class="box fill-yellow small"><div class="bh"><span class="n">3</span>⚠️ Prompt gotcha</div>
+        Cypher maps use <code>{ }</code> → escape as <code>{{ }}</code> in a <code>ChatPromptTemplate</code>, or they become variables.</div>
+    </div>
+    <div class="cheat p5" style="flex:1; display:grid; grid-template-columns: 1fr 1fr; gap:3mm">
+      <div class="box"><div class="bh">🔍 Filter by name</div>
+        <div class="code"><span class="k">MATCH</span> (p:Person)-[w:WORKED_ON]->(proj)
+<span class="k">WHERE</span> toLower(p.name) <span class="k">CONTAINS</span> <span class="s">'carol'</span></div><div class="use">→ case-insensitive partial match on names</div></div>
+      <div class="box"><div class="bh">🕒 "The last …"</div>
+        <div class="code"><span class="k">WITH</span> proj <span class="k">ORDER BY</span>
+  coalesce(proj.ended, date()) <span class="k">DESC LIMIT</span> <span class="s">1</span></div><div class="use">→ newest first; ongoing projects count as today</div></div>
+      <div class="box"><div class="bh">🧮 Aggregate</div>
+        <div class="code"><span class="k">WITH</span> p, collect(proj) <span class="k">AS</span> ps
+<span class="k">WHERE</span> size(ps) > <span class="s">1</span>  <span class="c">// &gt;1 project</span></div><div class="use">→ counting across <i>all</i> nodes (vector RAG can't)</div></div>
+      <div class="box"><div class="bh">🪜 Two hops</div>
+        <div class="code">(b:Person)-[:REPORTS_TO]->(m:Person)
+          -[:APPROVED]->(d:Decision)</div><div class="use">→ follow a chain of relationships in one query</div></div>
+      <div class="box"><div class="bh">🫥 Optional</div>
+        <div class="code"><span class="k">OPTIONAL MATCH</span> (proj)-[:USED_TOOL]->(t)
+<span class="c">// keeps the row even with no tools</span></div><div class="use">→ like a LEFT JOIN: missing links give null</div></div>
+      <div class="box"><div class="bh">🧭 Path</div>
+        <div class="code"><span class="k">MATCH</span> path =
+  shortestPath((a)-[*..5]-(b))
+<span class="k">RETURN</span> [n <span class="k">IN</span> nodes(path) | n.name]</div><div class="use">→ "how is A connected to B?"</div></div>
+    </div>
+    <div class="col" style="width:58mm">
+      <div class="box fill-blue small"><div class="bh"><span class="n">4</span>🐞 Lesson · Q8</div>
+        Cypher tested <code>role = 'Lead'</code> but leads are stored as <b class="hlo" style="font-weight:400">"Tech Lead"</b>.<br>
+        Fix → show real values + <code>CONTAINS 'lead'</code>.</div>
+      <div class="box fill-orange small"><div class="bh"><span class="n">5</span>🔁 Lesson · Q9</div>
+        Seeing "Expert", the model filtered on it and dropped 2 people.<br>
+        Fix → filter on level only if the question names one.</div>
+      <div class="box fill-green small"><div class="bh"><span class="n">6</span>🧠 Rule of thumb</div>
+        Every hint can over-constrain another question → <b class="hl" style="font-weight:400">re-run all 14</b> after each change.</div>
+    </div>
+  </div>
+  <div class="code" style="margin-top:3mm">cypher = strip_fences((CYPHER_PROMPT | ChatOpenAI(model=<span class="s">"gpt-4o"</span>)).invoke({<span class="s">"question"</span>: q, <span class="s">"entity_catalog"</span>: catalog, <span class="s">"error_feedback"</span>: <span class="s">""</span>}).content)
+<span class="k">if</span> is_read_only(cypher):  rows = [r.data() <span class="k">for</span> r <span class="k">in</span> driver.execute_query(cypher, routing_=RoutingControl.READ).records]</div>
+  <div class="take"><span class="chk">✓</span><span>Give the LLM the <span class="hl">schema + real values + patterns</span>; let <span class="hl">Cypher</span> do counting, filtering and hops exactly.</span><span class="pn">5 / 10</span></div>
+</section>
+
+<!-- ============ 6 · LANGGRAPH ============ -->
+<section class="pg">
+  <span class="spark" style="left:150mm; top:2.5mm">✦</span><span class="spark" style="left:6mm; top:120mm">✦</span>
+  <div class="top">
+    <div><h1>LangGraph pipeline — with a safety net <span class="sp">✦</span></h1>
+      <div class="sub">Nodes do the work · edges decide what happens next · fallbacks instead of guesses 🔀</div></div>
+    <div class="badge">Syntax · LangGraph StateGraph</div>
+  </div>
+  <div class="row">
+    <div class="box" style="width:180mm; padding:2mm">@@PIPELINE@@</div>
+    <div class="col" style="flex:1">
+      <div class="box fill-lav small"><div class="bh"><span class="n">1</span>🗃️ State</div>
+        A <code>TypedDict</code> shared by all nodes: question, route, cypher, rows, sources, path, usage…</div>
+      <div class="box fill-blue small"><div class="bh"><span class="n">2</span>⚙️ Node</div>
+        A plain function <code>state → dict</code>; it returns only the keys it changes.</div>
+      <div class="box fill-yellow small"><div class="bh"><span class="n">3</span>🔀 Conditional edge</div>
+        A function reads the state and returns the next node's name.</div>
+      <div class="box fill-green small"><div class="bh"><span class="n">4</span>⚓ Anchor fallback</div>
+        Full-text + vector seed entities → 1-hop neighbours as <code>[id]</code> triples + 2 closest chunks.</div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:3mm">
+    <div class="code" style="flex:1.2; font-size:6.9pt"><span class="k">class</span> GraphState(TypedDict, total=<span class="s">False</span>):
+    question: str; route: str; cypher: str; rows: list; sources: list; path: list
+
+g = StateGraph(GraphState)
+g.add_node(<span class="s">"router"</span>, route_question)   <span class="c"># + 5 more nodes</span>
+g.add_edge(START, <span class="s">"router"</span>)
+g.add_conditional_edges(<span class="s">"run_cypher"</span>, after_cypher, [<span class="s">"write_cypher"</span>, <span class="s">"anchor"</span>, <span class="s">"grade"</span>])
+PIPELINE = g.compile()
+state = PIPELINE.invoke({<span class="s">"question"</span>: q, <span class="s">"path"</span>: []})</div>
+    <div class="code" style="flex:1; font-size:6.9pt"><span class="k">class</span> Route(BaseModel):
+    route: Literal[<span class="s">"graph"</span>, <span class="s">"semantic"</span>, <span class="s">"out_of_scope"</span>]
+
+out = (ROUTER_PROMPT | llm.with_structured_output(
+        Route, include_raw=<span class="s">True</span>)).invoke({<span class="s">"question"</span>: q})
+out[<span class="s">"parsed"</span>].route                    <span class="c"># typed answer</span>
+out[<span class="s">"raw"</span>].usage_metadata              <span class="c"># token count</span>
+PIPELINE.get_graph().draw_mermaid()       <span class="c"># --mermaid flag</span></div>
+  </div>
+  <div class="take"><span class="chk">✓</span><span><span class="hl">StateGraph</span> + <span class="hl">conditional edges</span> turn "try Cypher, check it, fall back" into a clear, testable flow.</span><span class="pn">6 / 10</span></div>
+</section>
+
+<!-- ============ 7 · EVALUATION ============ -->
+<section class="pg">
+  <span class="spark" style="left:170mm; top:2.5mm">✦</span><span class="spark" style="right:8mm; top:140mm">✦</span>
+  <div class="top">
+    <div><h1>Evaluation — when does the graph win? <span class="sp">✦</span></h1>
+      <div class="sub">14 questions × 2 systems · gpt-4o as judge · every non-perfect score reviewed by hand 📊</div></div>
+    <div class="badge">Concept · RAG evaluation</div>
+  </div>
+  <div class="row">
+    <div class="col" style="width:62mm">
+      <div class="box"><div class="bh"><span class="n">1</span>📏 Metrics glossary</div>
+        <table class="tb">
+          <tr><td>✅ Correctness</td><td>judge vs reference: 1 · ½ · 0</td></tr>
+          <tr><td>🔗 Faithfulness</td><td>claims backed by context?</td></tr>
+          <tr><td>🎯 Entity recall</td><td>expected names present</td></tr>
+          <tr><td>🪤 Distractors</td><td>Henry / Vanta must not appear</td></tr>
+          <tr><td>🙅 Refusal</td><td>refuse only if unanswerable</td></tr>
+          <tr><td>⏱️ Latency</td><td>warm start, all LLM calls</td></tr>
+          <tr><td>🪙 Tokens</td><td>every call in the pipeline</td></tr></table></div>
+      <div class="box fill-pink small"><div class="bh"><span class="n">2</span>🧑‍⚖️ Judge the judge</div>
+        1 of 28 judgments was wrong (a correct date marked wrong) → human-reviewed vector score <span class="hlo">@@V_CORRECT@@</span> (judge: 0.71).</div>
+    </div>
+    <div class="box" style="flex:1"><div class="bh"><span class="n">3</span>Quality · overall</div>
+      <div class="legend"><span><i style="background:#2a78d6"></i>GraphRAG</span><span><i style="background:#eb6834"></i>Vector RAG</span></div>
+      @@OVERALL@@
+      <div class="row" style="margin-top:2mm">
+        <div class="stat" style="flex:1"><div class="num" style="font-size:16pt"><span class="hl">@@G_MEDIAN@@s</span> / <span class="hlo">@@V_MEDIAN@@s</span></div><div class="lbl">⏱️ median latency</div></div>
+        <div class="stat" style="flex:1"><div class="num" style="font-size:16pt"><span class="hl">@@G_TOKENS@@</span> / <span class="hlo">@@V_TOKENS@@</span></div><div class="lbl">🪙 tokens / question</div></div>
+      </div></div>
+    <div class="box" style="flex:1"><div class="bh"><span class="n">4</span>Correctness by question type</div>
+      <div class="legend"><span><i style="background:#2a78d6"></i>GraphRAG</span><span><i style="background:#eb6834"></i>Vector RAG</span></div>
+      @@CATEGORIES@@</div>
+  </div>
+  <div class="row" style="margin-top:3mm">
+    <div class="box fill-blue small" style="flex:1"><b class="hl" style="font-weight:400; font-size:12.5pt">🕸️ GraphRAG wins</b> — aggregation (Q3, Q4), two hops (Q6, Q14), filter + hop (Q8): the answer spans records top-k never sees.</div>
+    <div class="box fill-orange small" style="flex:1"><b class="hlo" style="font-weight:400; font-size:12.5pt">📚 Vector is enough</b> — one-entity lookups &amp; facts inside text tie, at ~@@SPEEDUP@@× less latency and ~@@TOKEN_RATIO@@× fewer tokens.</div>
+    <div class="code" style="flex:1.05; font-size:7pt"><span class="k">class</span> Grade(BaseModel):
+    score: Literal[<span class="s">0</span>, <span class="s">0.5</span>, <span class="s">1</span>]; reason: str
+judge = PROMPT | ChatOpenAI(model=<span class="s">"gpt-4o"</span>)
+                 .with_structured_output(Grade)</div>
+  </div>
+  <div class="take"><span class="chk">✓</span><span>Structure beats similarity when the answer is <span class="hl">assembled from many records</span>; on lookups they <span class="hl">tie</span>.</span><span class="pn">7 / 10</span></div>
+</section>
+
+<!-- ============ 8 · STREAMLIT 1 ============ -->
+<section class="pg">
+  <span class="spark" style="left:160mm; top:2.5mm">✦</span><span class="spark" style="right:8mm; top:150mm">✦</span>
+  <div class="top">
+    <div><h1>Streamlit ① — how the chat works <span class="sp">✦</span></h1>
+      <div class="sub">Every click re-runs <code>app.py</code> top to bottom · memory lives in <code>st.session_state</code> 🎈</div></div>
+    <div class="badge">Streamlit · app skeleton &amp; chat flow</div>
+  </div>
+  <div class="row">
+    <div style="width:136mm">
+      <img class="shot" src="screens/crop_chat.png">
+      <div class="cap">Side-by-side mode: GraphRAG finds Grace <b class="hl" style="font-weight:400">and</b> her 3 decisions; vector RAG finds Grace but says her decisions are missing.</div>
+      <div class="box fill-lav" style="margin-top:2.5mm"><div class="bh"><span class="n">🔁</span>The rerun model</div>
+        <div class="flow" style="gap:1mm">
+          <div class="step" style="padding:1mm">👆<br>click / Enter</div><div class="arrow" style="font-size:13pt">➜</div>
+          <div class="step" style="padding:1mm">📜<br>app.py runs again</div><div class="arrow" style="font-size:13pt">➜</div>
+          <div class="step" style="padding:1mm">🧠<br>session_state keeps messages</div><div class="arrow" style="font-size:13pt">➜</div>
+          <div class="step" style="padding:1mm">🖼️<br>history redrawn</div></div></div>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="box"><div class="bh">🎬 What happens when you press Enter</div>
+        <div class="col" style="gap:1.4mm">
+          <div class="small"><span class="n">1</span> <b class="hlv" style="font-weight:400">Startup once</b> — <code>@st.cache_resource startup()</code> warms Neo4j, the name catalog and embeddings.</div>
+          <div class="small"><span class="n">2</span> <b class="hlv" style="font-weight:400">Input</b> — <code>st.chat_input</code> or a sidebar example button (stored in <code>session_state.pending</code>).</div>
+          <div class="small"><span class="n">3</span> <b class="hlv" style="font-weight:400">Instant echo</b> — question bubble + spinner "Asking GraphRAG and Vector RAG…".</div>
+          <div class="small"><span class="n">4</span> <b class="hlv" style="font-weight:400">Parallel run</b> — <code>ThreadPoolExecutor</code> runs both systems: wait = the slower one, not the sum.</div>
+          <div class="small"><span class="n">5</span> <b class="hlv" style="font-weight:400">One result type</b> — each returns a <code>RAGResult</code>; errors become a red message, not a crash.</div>
+          <div class="small"><span class="n">6</span> <b class="hlv" style="font-weight:400">Save + redraw</b> — append to <code>session_state.messages</code> → <code>st.rerun()</code>.</div>
+        </div></div>
+      <div class="box fill-yellow small"><b class="hlv" style="font-weight:400; font-size:12.5pt">🧭 3 pages, 1 file</b> —
+        <code>st.navigation([st.Page(...)])</code> with clean URLs <code>/</code> · <code>/evaluation</code> · <code>/graph</code>.</div>
+      <div class="box fill-pink small"><div class="bh">⚠️ Gotchas worth remembering</div>
+        <ul class="list">
+          <li>Slow set-up at top level runs on <i>every</i> click → wrap it in <code>@st.cache_resource</code>.</li>
+          <li>Plain variables reset each rerun → keep history in <code>st.session_state</code>.</li>
+          <li>Widgets in a loop need unique <code>key=</code>s, or Streamlit raises a duplicate-ID error.</li>
+          <li>Change state, then call <code>st.rerun()</code> to redraw with it.</li></ul></div>
+    </div>
+  </div>
+  <div class="code" style="margin-top:2.5mm; font-size:6.9pt">st.set_page_config(page_title=<span class="s">"OrgGraph RAG"</span>, page_icon=<span class="s">"🕸️"</span>, layout=<span class="s">"wide"</span>)
+<span class="f">@st.cache_resource</span>                                   <span class="c"># runs once per server, shared by all sessions</span>
+<span class="k">def</span> startup(): graph_rag.warm_up(); vector_rag.retrieve(<span class="s">"warm up"</span>, k=<span class="s">1</span>)
+question = st.chat_input(<span class="s">"Ask about the organization…"</span>) <span class="k">or</span> st.session_state.pop(<span class="s">"pending"</span>, <span class="k">None</span>)
+<span class="k">with</span> st.chat_message(<span class="s">"assistant"</span>), st.spinner(<span class="s">"Asking…"</span>):  results = run_systems(question, MODES[mode])
+messages.append({<span class="s">"question"</span>: question, <span class="s">"results"</span>: results});  st.rerun()</div>
+  <div class="take"><span class="chk">✓</span><span>Streamlit = <span class="hl">rerun the script</span> + <span class="hl">session_state</span> for memory + <span class="hl">cache_resource</span> for expensive set-up.</span><span class="pn">8 / 10</span></div>
+</section>
+
+<!-- ============ 9 · STREAMLIT 2 ============ -->
+<section class="pg">
+  <span class="spark" style="left:175mm; top:2.5mm">✦</span><span class="spark" style="right:8mm; top:105mm">✦</span>
+  <div class="top">
+    <div><h1>Streamlit ② — showing its work <span class="sp">✦</span></h1>
+      <div class="sub">Two expanders open the black box: the steps &amp; sources, and the graph behind the answer 🔍</div></div>
+    <div class="badge">Streamlit · rendering &amp; explainability</div>
+  </div>
+  <div class="row">
+    <div style="width:66mm">
+      <div style="height:104mm; overflow:hidden; border-radius:10px"><img class="shot" src="screens/crop_how_found.png"></div>
+      <div class="cap">"How this answer was found": path chips · generated Cypher · every source with ✅ when cited.</div>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="row">
+        <div style="flex:1"><img class="shot" src="screens/crop_graph_graphrag.png">
+          <div class="cap"><span class="hl">GraphRAG</span>: one connected path Bob → Grace → 3 decisions (cited = bigger).</div></div>
+        <div style="flex:1"><img class="shot" src="screens/crop_graph_vector.png">
+          <div class="cap"><span class="hlo">Vector RAG</span>: 4 disconnected cards — Grace never retrieved.</div></div>
+      </div>
+      <div class="row" style="align-items:stretch">
+      <div class="box fill-blue small" style="flex:1"><div class="bh"><span class="n">1</span>🕸️ Subgraph view</div>
+        <code>subgraph(sources)</code> collects cited ids → one read-only Cypher fetches their edges →
+        <code>graph_html()</code> draws it with vis-network in <code>components.html</code>.</div>
+      <div class="box fill-yellow small" style="flex:1"><div class="bh"><span class="n">2</span>🔑 Why a custom component?</div>
+        <code>streamlit-agraph</code> has no <code>key</code> → the same graph twice on a page crashes. Widget keys must be
+        unique: <code>key=f"fb_{i}_{system}"</code>.</div>
+      <div class="box fill-green small" style="flex:1"><div class="bh"><span class="n">3</span>👍 Feedback loop</div>
+        <code>st.feedback</code> + <code>on_change</code> → appends {question, system, thumbs_up, answer, citations} to <code>feedback.jsonl</code>.</div>
+      </div>
+    </div>
+  </div>
+  <div class="code" style="margin-top:2.5mm; font-size:6.9pt"><span class="k">for</span> col, (system, result) <span class="k">in</span> zip(st.columns(<span class="s">2</span>), results.items()):        <span class="c"># side-by-side</span>
+    <span class="k">with</span> col:  st.subheader(SYSTEMS[system][<span class="s">0</span>]);  st.markdown(result.answer);  st.caption(<span class="s">"⏱ 6.6s · 2,960 tokens · 5 citations · route: graph"</span>)
+<span class="k">with</span> st.expander(<span class="s">"How this answer was found"</span>):  st.code(result.extra[<span class="s">"cypher"</span>], language=<span class="s">"cypher"</span>)
+components.html(graph_html(nodes, edges, highlight=result.citations), height=<span class="s">370</span>)
+st.feedback(<span class="s">"thumbs"</span>, key=key, on_change=log_feedback, args=(key, question, system, result))</div>
+  <div class="take"><span class="chk">✓</span><span>Trust comes from <span class="hl">showing the evidence</span>: the route, the query, the sources and the subgraph.</span><span class="pn">9 / 10</span></div>
+</section>
+
+<!-- ============ 10 · STREAMLIT 3 ============ -->
+<section class="pg">
+  <span class="spark" style="left:170mm; top:2.5mm">✦</span><span class="spark" style="left:6mm; top:130mm">✦</span>
+  <div class="top">
+    <div><h1>Streamlit ③ — dashboard, explorer &amp; cheat sheet <span class="sp">✦</span></h1>
+      <div class="sub">Evaluation results and the whole graph, one click from the chat 🧭</div></div>
+    <div class="badge">Streamlit · data pages</div>
+  </div>
+  <div class="row">
+    <div class="col" style="width:122mm">
+      <div><img class="shot" style="height:58mm; object-fit:cover; object-position:top" src="screens/crop_eval_top.png">
+        <div class="cap">📊 <b class="hlv" style="font-weight:400">Evaluation</b>: reads <code>eval/results.jsonl</code> → same <code>system_summary()</code> as the CLI report → metrics, table, Altair chart, answer inspector.</div></div>
+      <div><img class="shot" style="height:50mm; object-fit:cover; object-position:50% 40%" src="screens/crop_graph_page.png">
+        <div class="cap">🗺️ <b class="hlv" style="font-weight:400">Knowledge graph</b>: 2 read-only Cypher queries · node-type filter · same vis-network renderer.</div></div>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="box"><div class="bh"><span class="n">1</span>🎈 Streamlit cheat sheet (used in this app)</div>
+        <table class="tb">
+          <tr><td><code>st.chat_input / chat_message</code></td><td>chat box and bubbles</td></tr>
+          <tr><td><code>st.columns(2)</code></td><td>side-by-side answers</td></tr>
+          <tr><td><code>st.expander · st.code</code></td><td>"how it was found", Cypher</td></tr>
+          <tr><td><code>st.metric(delta=…)</code></td><td>GraphRAG vs vector deltas</td></tr>
+          <tr><td><code>st.dataframe · st.altair_chart</code></td><td>tables and the 0–1 bar chart</td></tr>
+          <tr><td><code>st.selectbox · st.multiselect</code></td><td>pick a question, filter node types</td></tr>
+          <tr><td><code>st.feedback · st.toast</code></td><td>👍/👎 and "feedback saved"</td></tr>
+          <tr><td><code>components.html</code></td><td>embed the vis-network graph</td></tr>
+        </table></div>
+      <div class="row">
+        <div class="box fill-blue small" style="flex:1"><div class="bh">🧱 cache_resource</div>
+          Connections, models, warm-up — one shared object, never copied.</div>
+        <div class="box fill-green small" style="flex:1"><div class="bh">📦 cache_data</div>
+          Data results (questions list, chunk ids) — returned as a fresh copy.</div>
+      </div>
+      <div class="box fill-pink small"><div class="bh">🛟 Robust by design</div>
+        Paused Aura → clear fix-it message + <code>st.stop()</code> · validated colour palette everywhere · tested end to end in a browser.</div>
+    </div>
+  </div>
+  <div class="code" style="margin-top:2.5mm; font-size:6.9pt">col.metric(<span class="s">"Correctness"</span>, <span class="s">"0.96"</span>, delta=<span class="s">"+0.25"</span>, help=<span class="s">"Vector RAG: 0.71"</span>)
+st.altair_chart(alt.Chart(df).mark_bar().encode(x=alt.X(<span class="s">"correctness:Q"</span>, scale=alt.Scale(domain=[<span class="s">0</span>, <span class="s">1</span>])), y=<span class="s">"category:N"</span>, yOffset=<span class="s">"system:N"</span>, color=<span class="s">"system:N"</span>), width=<span class="s">"stretch"</span>)
+kinds = st.multiselect(<span class="s">"Node types"</span>, list(KIND_COLORS), default=list(KIND_COLORS))</div>
+  <div class="take"><span class="chk">✓</span><span>One app, three views: <span class="hl">ask</span> 💬 · <span class="hl">measure</span> 📊 · <span class="hl">explore</span> 🗺️ — each backed by the same code as the CLI.</span><span class="pn">10 / 10</span></div>
+</section>
+
+</body>
+</html>

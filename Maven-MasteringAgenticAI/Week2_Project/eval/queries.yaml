@@ -1,0 +1,127 @@
+# Evaluation set: GraphRAG vs. vector RAG on the same 14 questions.
+#
+#   expected            reference answer the LLM judge grades against
+#   expected_entities   strings that must appear in a complete answer (entity recall;
+#                       case-, hyphen- and whitespace-insensitive)
+#   must_not            distractors that must NOT appear (e.g. the older audit's people/tools)
+#   answerable: false   the right behaviour is to refuse
+#
+# Graph-dependent expected answers are pinned by tests/test_mock_data_ext.py.
+
+- id: Q1
+  category: Multi-hop + temporal
+  question: Who worked on the last compliance audit and what tools did they use?
+  expected: >-
+    The last compliance audit is the Q3 2025 SOC2 Compliance Audit. Alice Chen (Lead),
+    Frank Lee (Security Reviewer) and Bob Martinez (Evidence Engineer) worked on it, and it
+    used AWS Audit Manager, Drata and Okta. (Henry Okafor and Vanta belong to the 2024 audit.)
+  expected_entities: [Alice Chen, Frank Lee, Bob Martinez, AWS Audit Manager, Drata, Okta]
+  must_not: [Henry Okafor, Vanta]
+
+- id: Q2
+  category: Multi-hop
+  question: What decisions were made about our pricing model and who approved them?
+  expected: >-
+    The decision to adopt a 3-tier usage-based pricing model (2025-05-20), approved by
+    Eve Johnson (CFO) and Carol Wu.
+  expected_entities: [tier, Eve Johnson, Carol Wu]
+
+- id: Q3
+  category: Aggregation
+  question: Who has worked on more than one project?
+  expected: >-
+    Bob Martinez (3 projects: Q3 2025 SOC2 audit, ML Recommendation Engine, Zero-Trust
+    Security Rollout), Alice Chen (2: the 2025 and 2024 SOC2 audits), David Kim (2: Pricing
+    Model Redesign, ML Recommendation Engine) and Frank Lee (2: the 2025 SOC2 audit,
+    Zero-Trust Security Rollout).
+  expected_entities: [Bob Martinez, Alice Chen, David Kim, Frank Lee]
+
+- id: Q4
+  category: Aggregation
+  question: Which tools are used across multiple projects?
+  expected: >-
+    Snowflake (Pricing Model Redesign, ML Recommendation Engine) and Okta (Q3 2025 SOC2
+    Compliance Audit, Zero-Trust Security Rollout).
+  expected_entities: [Snowflake, Okta]
+
+- id: Q5
+  category: Provenance
+  question: What analysis motivated the pricing redesign and who wrote it?
+  expected: >-
+    The Customer Churn Analysis Q2 2025, which found pricing friction was the leading churn
+    driver among SMB customers. It was written by David Kim.
+  expected_entities: [Churn Analysis, David Kim]
+
+- id: Q6
+  category: Multi-hop
+  question: Which decisions did Grace Patel approve, and for which projects?
+  expected: >-
+    Mandate MFA for all production system access (Zero-Trust Security Rollout);
+    Standardize on PyTorch for ML training pipelines (ML Recommendation Engine);
+    Replace Vanta with Drata for audit evidence automation (Q3 2025 SOC2 Compliance Audit).
+  expected_entities: [MFA, PyTorch, Drata, Zero-Trust, ML Recommendation, 2025 SOC2]
+
+- id: Q7
+  category: Path
+  question: How is Eve Johnson connected to Snowflake?
+  expected: >-
+    Eve Johnson worked on the Pricing Model Redesign as Executive Sponsor, and that
+    project used Snowflake.
+  expected_entities: [Pricing Model Redesign, Snowflake]
+
+- id: Q8
+  category: Filter + hop
+  question: Which in-progress projects is Bob on, and who leads them?
+  expected: >-
+    ML Recommendation Engine (Tech Lead David Kim) and Zero-Trust Security Rollout
+    (Tech Lead Frank Lee).
+  expected_entities: [ML Recommendation Engine, Zero-Trust, David Kim, Frank Lee]
+
+- id: Q9
+  category: Skill + hop
+  question: Who has SOC2 expertise and what projects did they work on?
+  expected: >-
+    Alice Chen (Expert; Q3 2025 and Q3 2024 SOC2 audits), Frank Lee (Intermediate; Q3 2025
+    SOC2 audit and Zero-Trust Security Rollout) and Henry Okafor (Intermediate; Q3 2024
+    SOC2 audit).
+  expected_entities: [Alice Chen, Frank Lee, Henry Okafor]
+
+- id: Q10
+  category: Semantic
+  question: What is our policy on production access?
+  expected: >-
+    All production access requires MFA via Okta; device posture checks are enforced for
+    any access to customer data; quarterly penetration tests are run against the
+    customer-facing API (Information Security Policy v3).
+  expected_entities: [MFA, Okta, device posture, penetration]
+
+- id: Q11
+  category: Detail in text
+  question: What NRR lift did the pricing proposal project?
+  expected: A 22% lift in net revenue retention over 12 months.
+  expected_entities: ["22%"]
+
+- id: Q12
+  category: Unanswerable
+  question: Who approved the migration to GCP?
+  expected: The knowledge base has no GCP migration; the system should say it cannot find this.
+  expected_entities: []
+  answerable: false
+
+- id: Q13
+  category: Temporal + why
+  question: What did we use for audit evidence before Drata, and why did we switch?
+  expected: >-
+    Vanta. The switch (decided 2025-06-10) was because Vanta required manual evidence
+    uploads for AWS controls, which contributed to the 2024 audit findings, while Drata's
+    continuous control monitoring automates evidence collection.
+  expected_entities: [Vanta, manual]
+
+- id: Q14
+  category: Multi-hop
+  question: Who does Bob report to, and what decisions has that person approved?
+  expected: >-
+    Bob reports to Grace Patel, who approved: Mandate MFA for all production system access;
+    Standardize on PyTorch for ML training pipelines; Replace Vanta with Drata for audit
+    evidence automation.
+  expected_entities: [Grace Patel, MFA, PyTorch, Drata]
