@@ -21,7 +21,7 @@ $env:CLAIM_TRIAGE_APP_DB = "data\demo.duckdb"
 uv run streamlit run src\claim_triage\app\dashboard.py
 ```
 
-(You need the Level 1 setup from the README first: `data.build` and `app.backfill`.) Have `docs/images/ARCHITECTURE.png` open in another window.
+(You need the setup from the README first: steps 4 and 6, `data.build` and `app.backfill`; the knowledge-base part of the tour also needs your Neo4j, step 5.) Have `docs/images/ARCHITECTURE.png` open in another window.
 
 ## The script
 

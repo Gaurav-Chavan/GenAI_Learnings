@@ -38,8 +38,14 @@ def test_a_fresh_clone_is_told_what_to_do_first_and_nothing_is_demanded_that_is_
     assert checks["Neo4j login found"].ok is False and checks["ANTHROPIC_API_KEY found"].ok is False
     assert checks["LANGFUSE_PUBLIC_KEY (optional tracing)"].ok is None  # optional never counts as a problem
     text = setup_check.render(list(checks.values()))
-    assert "Level 1" in text and "Level 2" in text and "Level 3" in text
-    assert text.rstrip().endswith("(Data built (synthetic claims))") and "claim_triage.data.build" in text.splitlines()[-1]
+    assert text.index("Install") < text.index("Settings (.env)") < text.index("Data") < text.index("Dashboard")  # one list, in the order of the README steps
+    assert "Level" not in text
+    last = text.rstrip().splitlines()[-1]
+    assert last.startswith("Next step:") and ".env" in last  # the first thing a fresh clone needs is its own keys
+    (clean / ".env").write_text("ANTHROPIC_API_KEY=fake-a-1\nOPENAI_API_KEY=fake-o-2\nNEO4J_URI=neo4j+s://fake.example.invalid\nNEO4J_USERNAME=neo4j\nNEO4J_PASSWORD=fake-p-3\n",
+                                encoding="utf-8")
+    after = setup_check.render(setup_check.check_all(root=clean))
+    assert "claim_triage.data.build" in after.rstrip().splitlines()[-1]  # then the data
 
 
 def test_the_report_shows_which_keys_exist_but_never_their_values(clean, monkeypatch):
@@ -146,11 +152,17 @@ def test_the_readme_points_to_every_document_in_the_docs_folder():
     assert (ROOT / "docs" / "images").is_dir() and "docs/images" in readme
 
 
-def test_the_readme_guides_a_teammate_through_the_three_levels():
+def test_the_readme_is_one_straight_path_from_clone_to_running_the_agents():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    for must in ("Level 1", "Level 2", "Level 3", "setup_check", ".env.example", "your own Neo4j", "claim_triage.data.build", "claim_triage.app.backfill", "streamlit run",
-                 "Troubleshooting", "git clone"):
+    steps = ["git clone", "uv sync", ".env.example", "setup_check", "claim_triage.data.build", "claim_triage.data.load_neo4j", "claim_triage.app.backfill", "streamlit run",
+             "claim_triage.evaluation.harness --system agents"]
+    positions = [readme.index(s) for s in steps]
+    assert positions == sorted(positions)  # the commands appear in the order a teammate runs them
+    for must in ("your own Neo4j", "ANTHROPIC_API_KEY", "OPENAI_API_KEY", "Troubleshooting", "Costs", "spending limit"):
         assert must in readme, must
+    assert "Level 1" not in readme and "Level 2" not in readme and "Level 3" not in readme  # no levels: everything is one path
+    for other in (ROOT / ".env.example", ROOT / "docs" / "DEMO.md"):
+        assert "Level 1" not in other.read_text(encoding="utf-8"), other.name
     assert not any(gone in readme for gone in ("Community Cloud", "deploy_full", "demo_data"))  # the deployment work was removed
 
 
