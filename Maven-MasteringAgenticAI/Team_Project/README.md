@@ -150,8 +150,10 @@ Everything written about the project is in [`docs/`](docs). A good reading order
 
 | Read | What it is |
 |---|---|
+| [Insurance Claim Triage Project Explained.pdf](docs/Insurance%20Claim%20Triage%20Project%20Explained.pdf) | start here if you are new: the whole project in plain words, with a glossary and a questions-and-answers part |
 | [docs/DEMO.md](docs/DEMO.md) | a 5-minute guided tour of the dashboard, and questions you should expect |
-| [docs/DESIGN.md](docs/DESIGN.md) (also `docs/DESIGN.pdf`) | the design, what is built and what is not, and the honest evaluation results |
+| [docs/DESIGN.md](docs/DESIGN.md) (a short 1 Nov design plan is also kept as `docs/DESIGN.pdf`) | the design, what is built and what is not, and the honest evaluation results |
+| [Insurance Claim Triage Technical Design Document.pdf](docs/Insurance%20Claim%20Triage%20Technical%20Design%20Document.pdf) | the full technical design in 50 illustrated pages: architecture, data, agents, scoring, evaluation, limits |
 | `docs/ARCHITECTURE.pdf`, [docs/images/](docs/images) | the architecture pictures and the explainer pictures (agents, retrieval, the framework) |
 | [docs/DATA_360.md](docs/DATA_360.md) | the data foundation: privacy split, quality checks, known limits |
 | [Insurance Claim Triage Dashboard Description.pdf](docs/Insurance%20Claim%20Triage%20Dashboard%20Description.pdf) | every page and component of the dashboard, with screenshots and a worked example |
