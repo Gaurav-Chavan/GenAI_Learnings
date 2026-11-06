@@ -271,8 +271,8 @@ def kb_page(store: Store) -> None:
                 "Each ticked finding is saved as *pending*, checked so it does not make the system worse, and only then offered to the agents as background. "
                 "It never changes a score by itself.")
     if DEMO:
-        st.info("The safety check calls AI models and the knowledge graph, so it is switched off in the public demo. You can still tick findings to see the page, "
-                "but nothing is sent.")
+        st.info("The safety check searches the knowledge graph and writes approved lessons to it, so it is switched off in the public demo. "
+                "You can still tick findings to see the page, but nothing is sent.")
     for r in st.session_state.pop("kb_results", []):
         label = f"{r['finding']} ({r['claim_id']})"
         if r["status"] == "active":

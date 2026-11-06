@@ -11,3 +11,7 @@ data/*.duckdb
 data/*.duckdb.wal
 data/reports/
 docs_temp/
+
+# real secrets for a deployed app (a placeholder-only example file is committed under another name)
+secrets.toml
+.streamlit/secrets.toml

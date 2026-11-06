@@ -23,7 +23,7 @@ OrgGraph RAG project in `GenAI_Learnings` (Neo4j + LangGraph + eval harness).
 | 3 LLM agents: Investigator, Verifier, Explainer | Built; **measured on the full dev and held-out sets** (small model) | original (dev 200 / held-out 100): 91.5–93% right band vs 99–99.5% for the rules; hard (dev 52 / held-out 28): 71% without / 100% with retrieval vs 50%; on the original cases 0 fraud in green and 0 honest in red; dev and held-out agree; with the larger model for cross-policy claims on X1+X2 dev (40 cases): 95% vs 65–78% for the small model (rules 100%), at ~18× the cost per claim |
 | Hybrid retrieval: BM25 + graph, RRF, rerank, provider track record | Built; **measured** | original cases: no real difference (dev +1.5, held-out −1 point); hard cases: 71% → 100% on both dev and held-out (the bad-hospital cases need it) |
 | Hard tier: 80 designed cases (explained-in-text bills, bad-provider track record) | Built | rules score 50% on them |
-| Dashboard: review queue, claim page with decision panel and audit trail, Knowledge Base tab, Evaluation page | Built, tested headlessly | 198 tests |
+| Dashboard: review queue, claim page with decision panel and audit trail, Knowledge Base tab, Evaluation page | Built, tested headlessly | 206 tests |
 | Learning loop: pending → safety check → active / blocked | Built, tested on the live index | a good signal activates, a spammy one is blocked |
 | **Not built / not done:** dense retrieval arm, MCP wrapper, LangGraph orchestration, LangSmith tracing (local JSONL traces instead; optional Langfuse tracing was added later), routed-model run on X3, X4 and held-out (X1 and X2 dev done), 3-run stability, judge model scores, fairness checks for the agents | — | needs paid runs or more time |
 
@@ -255,7 +255,7 @@ src/claim_triage/
   learning/    gate.py, process.py, kb_writer.py (the safety check; the only graph writes)
   evaluation/  harness.py (the only package that reads the hidden answer keys)
   app/         dashboard.py, review_queue.py, claim_view.py, kb.py, eval_view.py, evidence.py, plain.py, store.py, backfill.py
-tests/         198 tests (data, tools, scoring, agents with a scripted fake model, retrieval, learning loop, dashboard pages)
+tests/         206 tests (data, tools, scoring, agents with a scripted fake model, retrieval, learning loop, dashboard pages)
 docs/{tools,data_dictionary}.md   docs/DEMO.md   README.md
 ```
 

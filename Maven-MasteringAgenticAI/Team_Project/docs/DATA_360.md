@@ -3,7 +3,7 @@
 The data foundation for Insurance Claim Triage. Companion to [DESIGN.md](DESIGN.md).
 Status: design agreed step by step on 2026-10-31.
 **Built (Day 1):** seeded generator, privacy split (vault + tokens), silver and gold layers, quality and privacy checks, data dictionary, Neo4j graph load with BM25 indexes, 18 tests. Run the data build with `uv run python -m claim_triage.data.build` (about 15 s), load the graph with `uv run python -m claim_triage.data.load_neo4j` (refuses a non-empty database unless `--clear`), tests with `uv run pytest`.
-**Built (Day 1, part 2):** the read-only `ToolBox` (11 tools at that point, 13 now, see `tools.md`), the rules-only baseline (rules, scorer, evaluation harness, `eval/baseline_report.md`), 62 tests (198 now).
+**Built (Day 1, part 2):** the read-only `ToolBox` (11 tools at that point, 13 now, see `tools.md`), the rules-only baseline (rules, scorer, evaluation harness, `eval/baseline_report.md`), 62 tests (206 now).
 **Built since (Day 2):** the three agents, hybrid retrieval, the dashboard, the learning loop and the 80 hard evaluation cases; see [DESIGN.md](DESIGN.md) section 0.
 **Not built:** the MCP wrapper (stretch). Synthetic data only.
 
