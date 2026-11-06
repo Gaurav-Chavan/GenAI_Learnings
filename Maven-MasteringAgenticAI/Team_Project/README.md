@@ -18,79 +18,131 @@ On that data the agents never put fraud in green, but they send some real fraud 
 documents and looking up past decisions (71% without retrieval and 100% with it on both splits, against 50% for the rules). On the two weakest original scenarios (X1, X2) the larger model closed most of the gap
 (95% against 65–78% for the small model; rules 100%) at about 18 times the cost per claim. Agent runs so far cost about $10.4.
 
-## Run it
+## Quick start for teammates
 
-You need [uv](https://docs.astral.sh/uv/). Behind TLS inspection (common on work laptops) add `--native-tls`.
+You run this project **on your own computer with your own keys**. Nobody shares a key or a database. Pick the level you need; each level builds on the one before.
+
+| Level | You get | You need | Cost |
+|---|---|---|---|
+| **1** | the dashboard: review queue, claim pages, decisions, evaluation page, the saved agent runs | nothing but this repository | free |
+| **2** | the knowledge base and its safety check, and hybrid retrieval for the agents | **your own Neo4j** Aura instance (the free tier is enough) | free |
+| **3** | running the agents and the evaluation yourself | **your own** Anthropic and OpenAI keys | pays per run, see [Level 3](#level-3-run-the-agents-your-own-model-keys) |
+
+### 0. Install two tools, once
+
+You need **git** and **[uv](https://docs.astral.sh/uv/)**. uv installs the right Python for you, so you do not install Python yourself.
 
 ```bash
-uv sync --native-tls
+# macOS or Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-The project pins Python 3.14 (`.python-version`; `pyproject.toml` allows 3.11 or newer) and `uv` installs it for you.
-
-Secrets stay out of git (both files are in `.gitignore`): put your model keys in `API_Keys.txt` as `NAME=value` lines (see `.env.example` for the names), and keep
-the Neo4j Aura credentials file as downloaded (`Neo4j-*.txt`). The keys are only needed for agent runs, not for the dashboard.
-
-Build the data (deterministic; about 15 seconds), then load the graph. **`--clear` deletes every node in the target Neo4j database**, so point it at
-your own empty instance:
-
-```bash
-uv run python -m claim_triage.data.build
-uv run python -m claim_triage.data.load_neo4j --clear
+```powershell
+# Windows PowerShell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-Fill the dashboard's database (free: it runs the rules-only system and stores saved agent runs) and open the dashboard:
+### 1. Get the code and install it
+
+This project lives in a folder of a larger repository, so move into it after cloning:
 
 ```bash
-uv run python -m claim_triage.app.backfill
+git clone https://github.com/Gaurav-Chavan/GenAI_Learnings.git
+cd GenAI_Learnings/Maven-MasteringAgenticAI/Team_Project
+uv sync
+```
+
+Behind a company network that inspects TLS you may see a certificate error. Add `--system-certs` to the `uv` command (older uv versions: `--native-tls`).
+
+Then ask the project to check your computer. It tells you in plain words what is ready and what to do next, and it never prints a key:
+
+```bash
+uv run python -m claim_triage.setup_check
+```
+
+### Level 1: the dashboard, no keys
+
+```bash
+uv run python -m claim_triage.data.build        # builds the synthetic data, about 15 seconds, deterministic
+uv run python -m claim_triage.app.backfill      # fills the dashboard database; free, no model is called
 uv run streamlit run src/claim_triage/app/dashboard.py
 ```
 
-Run the tests (the graph tests skip themselves if Neo4j is unreachable):
+Open the address Streamlit prints (usually http://localhost:8501). You can filter the queue, open a claim, record your decision, tick findings and read the Evaluation page.
+The "Saved agent runs" view shows the agent results that ship with the repository in `saved_runs/`. Your decisions are stored in `data/app.duckdb` on your own computer.
+For a guided tour, follow [docs/DEMO.md](docs/DEMO.md).
+
+### Level 2: add your own Neo4j
+
+The knowledge base safety check and the agents' retrieval use a Neo4j graph. **Create your own free Aura instance** at [console.neo4j.io](https://console.neo4j.io); do not use a teammate's.
+Loading the graph **deletes every node in the target database**, which is why nobody should share one.
+
+1. Aura gives you a file called `Neo4j-<id>-Created-<date>.txt`. Keep it in this project folder (it is git-ignored), or copy its `NEO4J_` lines into your `.env` file (see [Keys and settings](#keys-and-settings)).
+2. Load the graph and check the connection:
 
 ```bash
-uv run pytest
+uv run python -m claim_triage.data.load_neo4j --clear
+uv run python -m claim_triage.setup_check --graph
 ```
 
-## Public demo on Streamlit Community Cloud
+A free Aura instance pauses after a few days of no use. If the check says it cannot reach Neo4j, resume the instance in the Aura console and try again.
+Now the **Knowledge base** page can run its safety check. It searches your graph and writes approved lessons to it (`ApprovedSignal` nodes only); it does not call a language model.
 
-The repository carries a ready-made demo: `deploy/streamlit_app.py` runs the dashboard on `demo_data/` (synthetic claims plus the stored assessments; no decisions,
-no lessons, no identity data, no answer keys). It needs **no API keys**. In demo mode the safety check for lessons is switched off (it writes to the Neo4j knowledge graph, which the demo is not connected to), and
-every visitor's session works on a private copy of the app database, so decisions are never shared and disappear when the app restarts.
+### Level 3: run the agents (your own model keys)
 
-To publish it: push the repository to GitHub, then on [share.streamlit.io](https://share.streamlit.io) choose **Create app**, pick the repository and branch, and set
-the main file path to the entry file's path from the repository root. If this project sits in a subfolder, that is `<subfolder>/deploy/streamlit_app.py`
-(for example `Maven-MasteringAgenticAI/Team_Project/deploy/streamlit_app.py`). Under **Advanced settings** choose Python 3.12 or 3.13 and leave **Secrets** empty.
-The app installs only `deploy/requirements.txt`, because Streamlit looks for a dependency file next to the entry file before the repository root.
-
-Try it locally first: `uv run streamlit run deploy/streamlit_app.py`. To rebuild the snapshot after rebuilding the data (needs the built `data/`):
+Put **your own** `ANTHROPIC_API_KEY` and `OPENAI_API_KEY` in `.env`. Set a spending limit with both providers first. Then start small, and tune on the dev split only:
 
 ```bash
-uv run python -m claim_triage.app.demo_data
+uv run python -m claim_triage.evaluation.harness --system agents --plan all_haiku --retrieval hybrid_rerank --split dev --per-cell 1 --workers 4 --out my_run
 ```
 
-## Full app on Streamlit Community Cloud (password protected)
+Roughly: about $0.004 per claim with the small model and about $0.07 with the larger one (used for customers with several policies). The full 200-claim dev run with the small model cost $1.80.
+Your runs are written to `traces/` (git-ignored) and the dashboard shows them in the "Saved agent runs" view after you run the backfill again.
 
-`deploy_full/streamlit_app.py` runs the whole dashboard behind a password: decisions, tags, owners, escalations and the knowledge-base safety check, which searches
-the Neo4j graph and writes approved lessons to it (`ApprovedSignal` nodes only, never anything else). The dashboard never calls a language model, so **no model keys are needed**.
-Follow the same steps as the demo, with the main file path `<subfolder>/deploy_full/streamlit_app.py` (for example
-`Maven-MasteringAgenticAI/Team_Project/deploy_full/streamlit_app.py`) and Python 3.12 or 3.13. Then paste your secrets into **Advanced settings > Secrets** (names are in
-`deploy_full/secrets.example.toml`; the real values never go into the repository):
+| Command | What it does | Cost |
+|---|---|---|
+| `...data.build`, `...app.backfill`, the dashboard | Level 1 | free |
+| `...evaluation.harness --system baseline ...` | the rules-only baseline | free |
+| `...evaluation.harness --system agents ...` | agent runs | pays per claim |
 
-```toml
-APP_PASSWORD = "a long random password"
-NEO4J_URI = "neo4j+s://<your-instance>.databases.neo4j.io"
-NEO4J_USERNAME = "neo4j"
-NEO4J_PASSWORD = "<your Neo4j password>"
-NEO4J_DATABASE = "neo4j"
+## Keys and settings
+
+Every setting lives in one file: **`.env`** in this folder. It is git-ignored, so it never leaves your computer. Create it from the example, then fill in only what you need:
+
+```bash
+cp .env.example .env            # macOS, Linux, Git Bash
 ```
 
-Good to know: without `APP_PASSWORD` the app stays closed. After 8 wrong passwords in 5 minutes, sign-in is paused for everyone. All reviewers share one password and type their own
-name in the sidebar, so the name in the audit trail is not verified. Decisions, owners and lesson records are kept on the server's disk and are lost when the app restarts or sleeps
-(lessons already written to Neo4j stay there). A free Aura instance pauses after a few days of no use: if the safety check says it could not reach the graph, resume the instance in the Aura console and run the check again.
-The full app starts from the same synthetic snapshot as the demo (`demo_data/`), so the graph must already hold the knowledge cards (`load_neo4j`).
-It installs only `deploy_full/requirements.txt` (no model libraries). To try it on your own computer, copy `deploy_full/secrets.example.toml` to `.streamlit/secrets.toml`
-(git-ignored), fill in your values and run `uv run streamlit run deploy_full/streamlit_app.py`.
+```powershell
+Copy-Item .env.example .env     # Windows PowerShell
+```
+
+| Setting | Get it from | Needed for |
+|---|---|---|
+| `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD`, `NEO4J_DATABASE` | your own Aura instance | Level 2 |
+| `ANTHROPIC_API_KEY` | console.anthropic.com | Level 3 |
+| `OPENAI_API_KEY` | platform.openai.com | Level 3 |
+| `LANGFUSE_*` | your own Langfuse project | optional tracing |
+
+Rules that keep the team safe:
+- **Never commit a key** and never paste one into chat, an issue or a document. `.gitignore` already blocks `.env`, `Neo4j-*.txt` and `API_Keys*.txt`, and the test suite scans the repository for key-like text.
+- Alternatives that also work: environment variables, or `NAME=value` lines in `API_Keys.txt` (keys) and the `Neo4j-*.txt` file from Aura (graph).
+- If you ever commit a key by mistake, **revoke it at the provider straight away**; removing it from git is not enough.
+
+## Documentation
+
+Everything written about the project is in [`docs/`](docs). A good reading order for a new teammate:
+
+| Read | What it is |
+|---|---|
+| [docs/DEMO.md](docs/DEMO.md) | a 5-minute guided tour of the dashboard, and questions you should expect |
+| [docs/DESIGN.md](docs/DESIGN.md) (also `docs/DESIGN.pdf`) | the design, what is built and what is not, and the honest evaluation results |
+| `docs/ARCHITECTURE.pdf`, [docs/images/](docs/images) | the architecture pictures and the explainer pictures (agents, retrieval, the framework) |
+| [docs/DATA_360.md](docs/DATA_360.md) | the data foundation: privacy split, quality checks, known limits |
+| [Insurance Claim Triage Dashboard Description.pdf](docs/Insurance%20Claim%20Triage%20Dashboard%20Description.pdf) | every page and component of the dashboard, with screenshots and a worked example |
+| `docs/Insurance_Claim_Triage_Technical_Deck.pptx` | a 19-slide technical walkthrough plus a 10-slide appendix, with speaker notes |
+| [docs/tools.md](docs/tools.md), [docs/data_dictionary.md](docs/data_dictionary.md) | generated reference: the agents' tools and every data field |
+| [eval/README.md](eval/README.md) | how to read the evaluation results in `eval/` |
 
 ## Evaluate
 
@@ -101,48 +153,67 @@ uv run python -m claim_triage.evaluation.harness --system baseline --split both
 uv run python -m claim_triage.evaluation.harness --system baseline --tier hard --split both --out baseline_hard
 ```
 
-Agent runs **cost money** (about $0.07 per case with the larger model, about $0.004 with the small one). Start small, and tune on the dev split only:
-
-```bash
-uv run python -m claim_triage.evaluation.harness --system agents --plan all_haiku --retrieval hybrid_rerank --split dev --per-cell 1 --workers 4 --out my_run
-```
-
-Options: `--retrieval none|bm25|graph|hybrid|hybrid_rerank`, `--plan routed|all_haiku|all_sonnet`, `--tier standard|hard|all`. Reports land in `eval/`, run traces in `traces/`.
+Agent runs **cost money** (see Level 3). Options: `--retrieval none|bm25|graph|hybrid|hybrid_rerank`, `--plan routed|all_haiku|all_sonnet`, `--tier standard|hard|all`.
+Reports land in `eval/`, run traces in `traces/`.
 
 ## Optional: trace agent runs in Langfuse
 
-Put `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY` and `LANGFUSE_BASE_URL` in `API_Keys.txt`, then install the extra packages once:
+Put `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY` and `LANGFUSE_BASE_URL` in `.env`, then install the extra packages once:
 
 ```bash
-uv sync --native-tls --group tracing
+uv sync --group tracing
 ```
 
 Every model call is then filed under its claim ID (session = claim) in Langfuse. Without the keys or packages nothing is traced and nothing breaks; set `CLAIM_TRIAGE_TRACING=0` to switch it off.
 Use synthetic data only: traces contain claim text.
 
+## Run the tests
+
+```bash
+uv run pytest
+```
+
+206 tests, about two minutes. A few tests skip themselves when you have not built the data or when Neo4j is unreachable; that is normal at Level 1.
+Please run them before you push a change.
+
+## Troubleshooting
+
+| You see | Do this |
+|---|---|
+| a certificate or TLS error from `uv` or `git` | add `--system-certs` to `uv` (older uv: `--native-tls`); for git on Windows use `git -c http.sslBackend=schannel ...` |
+| `No module named ...` | run `uv sync`, and start commands with `uv run` |
+| the dashboard shows no claims | run the Level 1 commands: `data.build`, then `app.backfill` |
+| "Saved agent runs" looks empty | run `uv run python -m claim_triage.app.backfill` again |
+| `Missing API key(s)` | add your own key to `.env`; run `setup_check` to see which one is missing |
+| `could not be reached` (Neo4j) | resume your Aura instance in its console and check the `NEO4J_` lines; then `setup_check --graph` |
+| "port already in use" | start the dashboard on another port: `uv run streamlit run src/claim_triage/app/dashboard.py --server.port 8502` |
+| characters look broken in the Windows console | set `PYTHONIOENCODING=utf-8` for the session |
+| something else | run `uv run python -m claim_triage.setup_check` first; it names the next step |
+
+## Working together
+
+- Use **your own** keys and **your own** Neo4j instance. Never share them, and never commit them.
+- The dashboard database `data/app.duckdb` is yours alone; your decisions and lessons are not shared unless you share the file.
+- Do not commit `data/`, `traces/` or `.env`; they are git-ignored on purpose. Commit code, docs and tests.
+- Run `uv run pytest` before you push. Keep the data synthetic.
+
 ## What is where
 
 | Path | What |
 |---|---|
-| [docs/DESIGN.md](docs/DESIGN.md), `docs/DESIGN.pdf`, `docs/images/ARCHITECTURE.png` | the design, what is built and what is not, and the picture |
-| `docs/images/INFOGRAPHIC.png` | one-page walkthrough of a single claim, for explaining the solution to teammates |
-| `docs/Insurance_Claim_Triage_Technical_Deck.pptx` | 19-slide technical walkthrough plus a 10-slide appendix, aligned with the agentic-systems course framework, with speaker notes on every slide |
-| `docs/images/dashboard/` | screenshots of every dashboard page, annotated page maps and the end-to-end example used in the dashboard description document |
-| `docs/images/` | explainer pictures: which model does what, what an AI agent is, searching three ways, the design of the four AI parts, the six-layer agentic framework, the autonomy ladder, and the two architecture diagrams (agent with harness; multi-agent view) |
-| [docs/DATA_360.md](docs/DATA_360.md) | the data foundation: privacy split, quality checks, known limits |
-| [docs/DEMO.md](docs/DEMO.md) | a 5-minute demo script and likely questions |
-| `docs/tools.md`, `docs/data_dictionary.md` | generated reference (rewritten by the build) |
-| `src/claim_triage/` | data, tools, scoring, agents, retrieval, learning loop, evaluation, dashboard |
+| `src/claim_triage/` | data, tools, scoring, agents, retrieval, learning loop, evaluation, dashboard, `setup_check` |
 | `tests/` | 206 tests, one folder per area |
+| [docs/](docs) | all documentation (see the table above) |
 | `knowledge/` | fraud-pattern cards, policy clauses, the frozen test searches for the safety check |
 | `config/` | data size, models, score weights |
-| `eval/` | evaluation results (CSV and report per run; `eval/archive/` holds superseded trial runs); see `eval/README.md` |
-| `data/` | the built DuckDB files and `app.duckdb` (all git-ignored, rebuilt from the seed) |
-| `deploy/`, `deploy_full/`, `demo_data/` | the Streamlit Community Cloud entry files (keyless public demo, and the full password-protected app), each with its own dependency list, and the safe synthetic snapshot they run on (committed on purpose) |
-| `traces/` | per-claim agent run records (git-ignored) |
+| `eval/` | evaluation results (CSV and report per run; `eval/archive/` holds superseded trial runs) |
+| `saved_runs/` | saved agent runs that ship with the repository, so the dashboard has agent results without spending money |
+| `.env.example` | the list of settings; copy it to `.env` |
+| `data/` | built on your computer: DuckDB files and `app.duckdb` (git-ignored, rebuilt from the seed) |
+| `traces/` | your own agent run records (git-ignored) |
 
 ## Safety notes
 
-- **Rotate the API keys** that were shared during the build and set spending limits at both providers.
 - The privacy vault is an unencrypted file and k-anonymity on every quasi-identifier is not achievable at 600 customers (see DATA_360.md section 13).
-- This is a learning and demo system, not a production fraud decision engine.
+- This is a learning and demo system, not a production fraud decision engine. A person decides every claim.
+- The knowledge graph is the only shared-looking part of the system, and it is **yours**: the safety check writes to it, and loading it deletes what is there.

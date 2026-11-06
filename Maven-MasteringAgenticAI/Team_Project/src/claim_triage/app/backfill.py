@@ -3,7 +3,7 @@
     uv run python -m claim_triage.app.backfill
 
   * every claim awaiting assessment gets the rules-only assessment (the same deterministic baseline the evaluation uses);
-  * where a saved agentic run exists in traces/, the newest one per claim is stored as the "agents" view, exactly as it was saved
+  * where a saved agentic run exists in saved_runs/ (shipped with the repository) or traces/ (your own runs), the newest one per claim is stored as the "agents" view, exactly as it was saved
     (those runs came from small samples, so the dashboard labels them as saved runs, not as a full evaluation).
 """
 from __future__ import annotations
@@ -44,9 +44,12 @@ def backfill_rules(store: Store, cfg: dict, ids: list[str]) -> Counter:
 
 
 def saved_agent_runs(trace_dir: Path | None = None) -> dict[str, tuple[str, dict]]:
-    """The newest saved agentic result per claim: claim_id -> (file name, record)."""
+    """The newest saved agentic result per claim: claim_id -> (file name, record).
+
+    By default the runs that ship with the repository (saved_runs/) are read first and your own runs (traces/) after them, so a run you made yourself wins."""
     latest: dict[str, tuple[str, dict]] = {}
-    for file in sorted(glob.glob(str((trace_dir or ROOT / "traces") / "*.jsonl"))):  # oldest first, so later files win
+    folders = [trace_dir] if trace_dir else [ROOT / "saved_runs", ROOT / "traces"]
+    for file in [f for folder in folders for f in sorted(glob.glob(str(folder / "*.jsonl")))]:  # oldest first, so later files win
         for line in open(file, encoding="utf-8"):
             rec = json.loads(line)
             latest[rec["claim_id"]] = (Path(file).name, rec)

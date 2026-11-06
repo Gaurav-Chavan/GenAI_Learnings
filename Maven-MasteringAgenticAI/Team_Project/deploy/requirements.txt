@@ -1,6 +1,0 @@
-# Only what the dashboard needs to run the public demo. The full set (agents, graph, tests) is in ../pyproject.toml and ../uv.lock.
-streamlit>=1.66.1
-duckdb>=1.1
-pandas>=2.0
-pydantic>=2.0
-pyyaml>=6.0

@@ -18,7 +18,7 @@ def parse_credentials(path: Path) -> dict[str, str]:
         line = line.strip()
         if line and not line.startswith("#") and "=" in line:
             key, value = line.split("=", 1)
-            out[key.strip()] = value.strip()
+            out[key.strip()] = value.strip().strip('"').strip("'")
     return out
 
 
@@ -30,7 +30,7 @@ def credentials(root: Path = ROOT) -> dict[str, str]:
             break
         if path.exists():
             for key, value in parse_credentials(path).items():
-                if key in KEYS:
+                if key in KEYS and value:  # an empty line such as NEO4J_PASSWORD= (a copied .env.example) counts as not set
                     found.setdefault(key, value)
     if not all(k in found for k in KEYS[:3]):
         raise RuntimeError("No Neo4j credentials found: set NEO4J_URI / NEO4J_USERNAME / NEO4J_PASSWORD, or keep the Neo4j-*.txt file "

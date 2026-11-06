@@ -8,12 +8,20 @@ what a reviewer chooses to teach it, after a safety check."
 Use a scratch copy of the dashboard database so your demo decisions do not pollute the real one:
 
 ```bash
-copy data\app.duckdb data\demo.duckdb
-set CLAIM_TRIAGE_APP_DB=data\demo.duckdb
+# macOS, Linux, Git Bash
+cp data/app.duckdb data/demo.duckdb
+export CLAIM_TRIAGE_APP_DB=data/demo.duckdb
+uv run streamlit run src/claim_triage/app/dashboard.py
+```
+
+```powershell
+# Windows PowerShell
+Copy-Item data\app.duckdb data\demo.duckdb
+$env:CLAIM_TRIAGE_APP_DB = "data\demo.duckdb"
 uv run streamlit run src\claim_triage\app\dashboard.py
 ```
 
-(PowerShell: `Copy-Item data\app.duckdb data\demo.duckdb; $env:CLAIM_TRIAGE_APP_DB="data\demo.duckdb"`.) Have `docs\images\ARCHITECTURE.png` open in another window.
+(You need the Level 1 setup from the README first: `data.build` and `app.backfill`.) Have `docs/images/ARCHITECTURE.png` open in another window.
 
 ## The script
 
@@ -42,5 +50,5 @@ uv run streamlit run src\claim_triage\app\dashboard.py
 ## After the demo
 
 ```bash
-del data\demo.duckdb
+rm data/demo.duckdb          # PowerShell: Remove-Item data\demo.duckdb
 ```

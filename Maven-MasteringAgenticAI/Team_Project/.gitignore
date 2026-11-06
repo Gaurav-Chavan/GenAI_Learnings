@@ -2,16 +2,18 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# secrets: every teammate keeps their own in .env (copy .env.example). Never commit real values.
 .env
 Neo4j-*.txt
 API_Keys*.txt
 *API_Keys*
+secrets.toml
+.streamlit/secrets.toml
+
+# built or generated on your own computer
 traces/
 data/*.duckdb
 data/*.duckdb.wal
 data/reports/
 docs_temp/
-
-# real secrets for a deployed app (a placeholder-only example file is committed under another name)
-secrets.toml
-.streamlit/secrets.toml

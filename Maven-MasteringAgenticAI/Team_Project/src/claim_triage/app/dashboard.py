@@ -26,7 +26,6 @@ from claim_triage.learning.gate import GateResult
 
 st.set_page_config(page_title="Claim triage", page_icon="\U0001F6E1️", layout="wide")
 
-DEMO = os.environ.get("CLAIM_TRIAGE_DEMO") == "1"  # the public demo: no model calls, and decisions are not kept
 SYSTEM_CHOICES = {"Rules-only (every claim)": "rules", "Saved agent runs (evaluated claims)": "agents"}
 PAGES = ["Review queue", "Claim", "Knowledge base", "Evaluation"]
 SIGNAL_STATUS = {"pending": "\U0001F552 Waiting for the safety check", "active": "✅ In the knowledge base", "blocked": "⛔ Blocked by the safety check", "new": "New"}
@@ -270,9 +269,6 @@ def kb_page(store: Store) -> None:
     st.markdown("The system can learn from your decisions, but **nothing is learned silently**. Tick the findings worth keeping and say why. "
                 "Each ticked finding is saved as *pending*, checked so it does not make the system worse, and only then offered to the agents as background. "
                 "It never changes a score by itself.")
-    if DEMO:
-        st.info("The safety check searches the knowledge graph and writes approved lessons to it, so it is switched off in the public demo. "
-                "You can still tick findings to see the page, but nothing is sent.")
     for r in st.session_state.pop("kb_results", []):
         label = f"{r['finding']} ({r['claim_id']})"
         if r["status"] == "active":
@@ -306,7 +302,7 @@ def kb_page(store: Store) -> None:
         if len(offered) > 50:
             st.caption(f"Showing the 50 newest of {len(offered)} findings.")
         st.caption(f"{len(picks)} ticked. Area and cover findings are not offered: they are recalculated from the data for every claim, so there is nothing to learn.")
-        if st.button("Update knowledge base", type="primary", disabled=not picks or DEMO):
+        if st.button("Update knowledge base", type="primary", disabled=not picks):
             try:
                 saved = submit_signals(store, st.session_state.get("reviewer", ""), picks)
             except KnowledgeError as exc:
@@ -320,7 +316,7 @@ def kb_page(store: Store) -> None:
         st.caption("No signals proposed yet.")
         return
     waiting = [r["signal_id"] for r in rows if r["status"] == "pending"]
-    if waiting and st.button(f"Run the safety check again on {len(waiting)} waiting signal(s)", disabled=DEMO):
+    if waiting and st.button(f"Run the safety check again on {len(waiting)} waiting signal(s)"):
         st.session_state["kb_results"] = run_safety_check(store, waiting)
         st.rerun()
     st.dataframe(pd.DataFrame([{
@@ -440,8 +436,7 @@ def eval_page(store: Store) -> None:
 # ------------------------------------------------------------------ shell
 def main() -> None:
     cfg = load_config()
-    # lets a test or a demo use its own copy of the app database; the public demo gives each visitor's session a private copy
-    override = st.session_state.get("app_db_path") or os.environ.get("CLAIM_TRIAGE_APP_DB")
+    override = os.environ.get("CLAIM_TRIAGE_APP_DB")  # lets a test or a demo use its own copy of the app database
     store = Store(cfg, path=Path(override) if override else None)
     try:
         st.session_state.setdefault("page", PAGES[0])
@@ -452,8 +447,6 @@ def main() -> None:
             view = st.radio("Assessment shown", list(SYSTEM_CHOICES), help="Rules-only covers every claim and costs nothing to produce. Agent runs are saved samples.")
             st.caption("Customers are shown by ID only. A green band is not an approval: a reviewer decides every claim.")
             st.caption(f"Stored assessments: {json.dumps(store.count_assessments())}")
-            if DEMO:
-                st.info("Public demo with synthetic data only. Decisions you save are kept only until the app restarts.")
         system = SYSTEM_CHOICES[view]
         if st.session_state["page"] == "Review queue":
             st.header("Review queue")
