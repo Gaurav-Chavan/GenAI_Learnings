@@ -1,0 +1,27 @@
+[project]
+name = "claim-triage"
+version = "0.1.0"
+description = "Insurance claim triage: Data 360, hybrid RAG and agentic review (synthetic data only)"
+requires-python = ">=3.11"
+dependencies = [
+    "duckdb>=1.1",
+    "faker>=30.0",
+    "litellm>=1.106.6",
+    "mcp>=2.3.0",
+    "neo4j>=6.4.1",
+    "pydantic>=2.14.2",
+    "pyyaml>=6.0",
+    "streamlit>=1.66.1",
+    "truststore>=0.10.5",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.23,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
+tracing = ["langfuse>=3.0", "opentelemetry-sdk>=1.30", "opentelemetry-exporter-otlp-proto-http>=1.30"]  # optional: uv sync --group tracing
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

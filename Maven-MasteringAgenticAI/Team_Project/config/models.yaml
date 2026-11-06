@@ -1,0 +1,25 @@
+# Which model each agent uses (LiteLLM model names). Change a line to change a model; the evaluation can compare plans.
+agents:
+  investigator:                      # one agent; the cross-policy checklist is loaded only when the person has more than one policy
+    default:       anthropic/claude-haiku-5-5
+    cross_policy:  anthropic/claude-sonnet-5-5
+    fallback:      openai/gpt-4o-mini
+  verifier:
+    default:       openai/gpt-4o-mini            # a different model family than the investigator: an independent second opinion
+    fallback:      anthropic/claude-haiku-5-5
+  explainer:
+    default:       anthropic/claude-haiku-5-5
+    fallback:      openai/gpt-4o-mini
+  reranker:
+    default:       anthropic/claude-haiku-5-5
+    fallback:      openai/gpt-4o-mini
+  judge:                             # offline evaluation only; not the main family used by the agents
+    default:       openai/gpt-4o
+    fallback:      null
+
+limits:
+  max_tool_calls: 7                  # investigator, single checklist (one more than before: it can now read the claim's documents)
+  max_tool_calls_cross_policy: 9
+  timeout_seconds: 60
+  temperature: 0
+  max_output_tokens: 1500

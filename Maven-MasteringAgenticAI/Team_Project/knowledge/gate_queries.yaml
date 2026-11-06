@@ -1,0 +1,50 @@
+# The frozen test searches for the knowledge-base safety check. Each is a plain-language search an investigator might write, and the finding whose
+# pattern card should come back near the top. They contain no claim data and are never tuned to a particular signal.
+DUPLICATE_CLAIM:
+  - same treatment claimed twice with the same invoice number
+  - possible duplicate hospital claim same provider same dates same amount
+  - resubmitted claim identical to an earlier one
+BILL_OUTLIER_VS_PEERS:
+  - bill far higher than other hospitals charge for the same procedure
+  - inflated hospital bill compared with peers
+  - unusually expensive treatment itemised bill needed
+NOMINEE_CHANGE_NEAR_EVENT:
+  - nominee changed shortly before the policyholder died
+  - beneficiary replaced weeks before a death claim
+  - new nominee who is not a family member and a consent form
+DOC_DATE_MISMATCH:
+  - date of death differs between claim form and death certificate
+  - conflicting dates across documents
+  - correction affidavit for a wrong date
+REPEAT_INCIDENT_CLAIM:
+  - same vehicle claimed again for the same accident date
+  - repeat motor claim for one accident
+  - second claim same garage same vehicle
+DAMAGE_IN_PRIOR_INSPECTION:
+  - claimed damage already recorded at an earlier inspection
+  - parts damaged before and never repaired
+  - vehicle inspection shows existing damage
+PRE_EXISTING_NEAR_INCEPTION:
+  - condition existed before the policy and was not declared
+  - claim soon after policy start for an undisclosed pre-existing illness
+  - non-disclosure of medical history
+EARLY_DEATH_VS_HEALTH_HISTORY:
+  - death soon after the term policy started with earlier serious illness
+  - early death contradicting health history
+  - cause of death related to an earlier illness not mentioned in the application
+CROSS_POLICY_INCIDENT_MISMATCH:
+  - same accident claimed under motor and health policies with different dates
+  - hospital admission before the accident
+  - motor and health claims disagree on the place of the accident
+SHARED_ENTITY_CLUSTER:
+  - several unrelated customers paid to the same bank account
+  - shared payout account at the same garage or hospital
+  - ring of customers sharing a phone or account
+HIGH_FRAUD_AREA:
+  - claim from an area with many confirmed frauds
+  - district with a high fraud rate
+  - area risk flag
+COVER_VS_INCOME_MISMATCH:
+  - sum insured far above the income of the customer
+  - cover many times annual income
+  - income does not support the policy cover

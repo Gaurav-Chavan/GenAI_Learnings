@@ -1,0 +1,69 @@
+# Synthetic policy clauses used as retrievable knowledge. They explain what the insurer's terms say; they are context for the reviewer and the agents, never proof.
+CL-HEALTH-01:
+  line: health
+  title: Disclosure of existing conditions
+  text: The proposer must declare every medical condition known at the time of the proposal. A claim for a condition that existed before the policy started and was not declared
+    in the application may be reduced or declined, especially when the claim is made soon after the policy started.
+CL-HEALTH-02:
+  line: health
+  title: Waiting period
+  text: Treatment of a pre-existing condition is covered only after the waiting period in the policy schedule has passed. Claims for such a condition inside the waiting period
+    are reviewed against the declared conditions and earlier claim records.
+CL-HEALTH-03:
+  line: health
+  title: Documents for a hospital claim
+  text: A hospital claim needs the bill and the discharge summary. When the bill is far above the usual charge for the procedure, an itemised bill is also required so that
+    each charge can be checked.
+CL-HEALTH-04:
+  line: health
+  title: Reasonable and customary charges
+  text: The insurer pays reasonable and customary charges. A bill well above what comparable hospitals in the same district charge for the same procedure may be reduced,
+    unless the extra cost is documented, for example by an itemised bill for a complex treatment.
+CL-HEALTH-05:
+  line: health
+  title: No double claim for one treatment
+  text: The same treatment cannot be claimed twice. A resubmission is accepted only as a corrected claim for a returned bill, with an explanation. An identical invoice number
+    with the same provider and dates is treated as a duplicate.
+CL-TERM-01:
+  line: term
+  title: Change of nominee
+  text: A change of nominee must be signed by the policyholder and supported by a consent form. A change made in the weeks before the policyholder's death, especially to
+    someone who is not a close family member, is reviewed before the death benefit is paid.
+CL-TERM-02:
+  line: term
+  title: Early death claims
+  text: When death occurs soon after the policy started, the insurer may investigate whether the application disclosed the policyholder's health history. Earlier serious
+    illness claims that the application did not mention are relevant. A documented accident is treated separately.
+CL-TERM-03:
+  line: term
+  title: Death certificate and dates
+  text: The claim needs the death certificate and the cause of death. The date of death on the claim form must match the death certificate. A difference must be explained,
+    for example by a correction affidavit.
+CL-TERM-04:
+  line: term
+  title: Cover must match financial means
+  text: The sum assured must be supportable by the policyholder's income. Cover many times the income needs a reason and is checked at underwriting and again at claim.
+CL-MOTOR-01:
+  line: motor
+  title: Damage that existed before
+  text: Damage recorded at an earlier inspection and not repaired is not covered as new damage. The insurer compares the claimed parts with earlier inspections of the same
+    vehicle. Damage that was repaired and then damaged again is covered.
+CL-MOTOR-02:
+  line: motor
+  title: Police report
+  text: A police report (FIR) is required for theft, serious accidents and any accident with injury. The accident date and place on the claim must agree with the report.
+CL-MOTOR-03:
+  line: motor
+  title: One claim per accident
+  text: An accident is claimed once. A second claim for the same vehicle and the same accident date is not payable, unless it is a supplementary claim for hidden damage found
+    during repair and documented by the garage.
+CL-ALL-01:
+  line: all
+  title: One incident under several policies
+  text: When one incident leads to claims under more than one policy of the same customer, for example a motor claim and a health claim for injuries, the facts must agree.
+    A hospital admission before the accident, or different accident dates or places, must be explained. Benefits cannot exceed the loss.
+CL-ALL-02:
+  line: all
+  title: Payout accounts
+  text: Payouts go to the insured, the nominee or a registered provider. Many unrelated customers whose claims are paid to the same account, especially around the same
+    hospital or garage, are reviewed together. Relatives in one household may share an account.

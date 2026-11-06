@@ -1,0 +1,41 @@
+# Data 360 build configuration (synthetic data only). See docs/DATA_360.md.
+seed: 42
+data_dir: data
+
+# Time frame: history feeds the statistics; evaluation claims are filed afterwards.
+history_start: "2023-07-01"
+history_cutoff: "2026-06-30"
+eval_start: "2026-07-01"
+eval_end: "2026-10-15"
+dataset_today: "2026-10-31"
+
+n_customers: 600
+hotspot_multiplier: 5.0
+base_fraud_rate: {health: 0.05, motor: 0.06, term: 0.04}
+claim_rate_per_year: {health: 1.4, motor: 1.1, term: 0.04}
+
+eval:
+  per_scenario: 30          # 10 scenarios -> 300 evaluation claims
+  suspicious: 0.35
+  honest: 0.45              # the remainder is "missing evidence"
+  hotspot_share: 0.35       # same share for every kind, so area alone does not reveal the label
+  heldout_every: 3          # every 3rd case per scenario is held out
+
+# Hard tier (labels_hard): probes that need reading documents or looking up past decisions. Split like the standard cases.
+hard:
+  per_scenario: 40          # 2 scenarios -> 80 extra evaluation claims
+  # Everything in this tier happens after the last standard claim (eval_end), so the 300 standard cases cannot see it:
+  # the bad-provider track record is filed on record_date and decided a week later; the hard cases are filed in the last days of the dataset.
+  record_date: "2026-10-16"
+  cases_start: "2026-10-27"
+  cases_end: "2026-10-31"
+
+area:
+  window_months: 24
+  shrinkage_m: 10
+  high_ratio: 2.0
+  min_pin_claims: 15
+  min_district_claims: 30
+
+privacy:
+  k: 5

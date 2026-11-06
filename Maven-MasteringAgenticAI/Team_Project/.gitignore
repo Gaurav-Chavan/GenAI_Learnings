@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+Neo4j-*.txt
+API_Keys*.txt
+*API_Keys*
+traces/
+data/*.duckdb
+data/*.duckdb.wal
+data/reports/
+docs_temp/

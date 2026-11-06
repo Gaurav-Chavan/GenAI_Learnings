@@ -1,0 +1,86 @@
+# Fraud pattern cards. A pattern is a hypothesis to investigate, never proof. The Verifier uses `legitimate_exceptions` to challenge findings.
+DUPLICATE_CLAIM:
+  name: Duplicate claim
+  description: The same treatment is claimed twice (same provider, procedure, dates, amount, sometimes the same invoice number).
+  investigate: [compare provider, procedure, admission dates, amount and invoice number with earlier claims]
+  legitimate_exceptions:
+    - A corrected resubmission of a claim that was returned for a mistake (usually with a different invoice number and an explanation).
+    - A genuine follow-up treatment on different dates.
+    - Two separate treatments that happen to cost the same.
+BILL_OUTLIER_VS_PEERS:
+  name: Inflated billing
+  description: The bill is far above what comparable hospitals charge for the same procedure.
+  investigate: [compare with the median at other hospitals in the district, check for an itemised bill]
+  legitimate_exceptions:
+    - A rare or complex treatment with documented extra costs (itemised bill on file).
+    - A premium hospital with a consistently higher price list for every patient.
+    - Peer data that is thin (few comparable claims).
+NOMINEE_CHANGE_NEAR_EVENT:
+  name: Nominee changed shortly before a death claim
+  description: The beneficiary was changed in the weeks before the policyholder's death.
+  investigate: [find the nominee change event, check the new nominee's relationship, check for a consent form]
+  legitimate_exceptions:
+    - A change to a spouse or child after marriage or birth, with a signed consent form.
+    - A routine update (for example a name correction).
+DOC_DATE_MISMATCH:
+  name: Conflicting dates across documents
+  description: The date of death on the claim form differs from the death certificate.
+  investigate: [compare the dates on the claim form and the death certificate]
+  legitimate_exceptions:
+    - A clerical error corrected by an affidavit.
+    - A difference of one or two days caused by the time of death near midnight.
+REPEAT_INCIDENT_CLAIM:
+  name: Repeat claim for the same accident
+  description: The same vehicle is claimed again for an accident on the same date.
+  investigate: [compare the vehicle, the accident date and the garage with recent claims]
+  legitimate_exceptions:
+    - Two genuinely separate accidents (different dates and different damaged parts).
+    - A supplementary claim for hidden damage found during repair of the first accident, documented by the garage.
+DAMAGE_IN_PRIOR_INSPECTION:
+  name: Claimed damage already visible earlier
+  description: Parts claimed as newly damaged were already recorded as damaged at an earlier inspection, with no repair since.
+  investigate: [compare claimed parts with earlier inspections, look for a repair between the inspection and the accident]
+  legitimate_exceptions:
+    - The earlier damage was repaired and the vehicle was damaged again in the same place.
+    - The earlier inspection record is vague or covers a different vehicle.
+PRE_EXISTING_NEAR_INCEPTION:
+  name: Non-disclosure of a pre-existing condition
+  description: A claim soon after the policy started is for a condition that earlier records show and the application did not declare.
+  investigate: [look for earlier claims or records of the same condition, check the declared conditions]
+  legitimate_exceptions:
+    - The condition was declared on the application.
+    - The earlier record is for a different or unrelated condition.
+    - The first symptoms appeared after the policy started.
+EARLY_DEATH_VS_HEALTH_HISTORY:
+  name: Early death contradicting health history
+  description: A death shortly after a term policy started, when earlier claims show a serious illness that the application did not mention.
+  investigate: [check the cause of death, look for earlier serious health claims from before the policy]
+  legitimate_exceptions:
+    - A documented accident (police report) is unrelated to any earlier illness.
+    - The earlier illness was declared or is unrelated to the cause of death.
+CROSS_POLICY_INCIDENT_MISMATCH:
+  name: The same accident claimed under two policies with inconsistent facts
+  description: A motor claim and a health (injury) claim describe the same accident but disagree on date or place, or the hospital admission is before the accident.
+  investigate: [compare accident dates, places and the admission date across the two claims]
+  legitimate_exceptions:
+    - A one- or two-day difference because of how the accident date was recorded.
+    - A transfer to a hospital in a nearby district.
+SHARED_ENTITY_CLUSTER:
+  name: Unrelated customers sharing a payout account or other detail
+  description: Several unrelated customers had claims paid to the same account, often at the same garage or hospital.
+  investigate: [find customers sharing the account, separate relatives (same address) from unrelated people]
+  legitimate_exceptions:
+    - Relatives in one household sharing a phone, address or account.
+    - A payment agent or dealer who legitimately receives many customers' payouts.
+HIGH_FRAUD_AREA:
+  name: Claim from an area with a high confirmed-fraud rate
+  description: Reviewer-confirmed fraud is several times more common in this area than average.
+  investigate: [check the area signal and how many past claims it rests on]
+  legitimate_exceptions:
+    - An area is not evidence about this customer; most claims from high-fraud areas are honest. Treat as a reason to look closer, never as proof.
+COVER_VS_INCOME_MISMATCH:
+  name: Cover far above what the income supports
+  description: The sum insured is many times the midpoint of the customer's income band.
+  investigate: [compare the sum insured with the income band]
+  legitimate_exceptions:
+    - Income bands are coarse; a customer near the top of a band, or with other assets, can justify higher cover.

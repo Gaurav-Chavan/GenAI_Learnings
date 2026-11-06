@@ -1,0 +1,35 @@
+# Scoring configuration. Weights are illustrative and are tuned on the DEV split only (never on held-out cases).
+# Trust = 1 - risk, risk = 1 - prod(1 - weight * confidence) over verified indicators (noisy-OR).
+bands:
+  red_below: 0.30        # trust < 0.30  -> red
+  green_above: 0.80      # trust > 0.80  -> green; 0.30 <= trust <= 0.80 -> review needed ("amber")
+caps:
+  insufficient_evidence_trust_max: 0.80   # missing required documents: can never be green
+  hard_rule_trust_max: 0.29               # e.g. an exact duplicate (same invoice number): always red
+
+indicators:
+  DUPLICATE_CLAIM:                {weight: 0.90}
+  BILL_OUTLIER_VS_PEERS:          {weight: 0.90}
+  NOMINEE_CHANGE_NEAR_EVENT:      {weight: 0.90}
+  DOC_DATE_MISMATCH:              {weight: 0.90}
+  REPEAT_INCIDENT_CLAIM:          {weight: 0.90}
+  DAMAGE_IN_PRIOR_INSPECTION:     {weight: 0.90}
+  PRE_EXISTING_NEAR_INCEPTION:    {weight: 0.90}
+  EARLY_DEATH_VS_HEALTH_HISTORY:  {weight: 0.90}
+  CROSS_POLICY_INCIDENT_MISMATCH: {weight: 0.90}
+  SHARED_ENTITY_CLUSTER:          {weight: 0.90}
+  HIGH_FRAUD_AREA:                {weight: 0.25}   # alone: review needed, never red
+  COVER_VS_INCOME_MISMATCH:       {weight: 0.15}
+
+thresholds:
+  bill_ratio: 2.0                  # bill / peer median at or above this is an outlier
+  itemised_bill_ratio: 1.8         # an itemised bill is required above this ratio (lower than bill_ratio on purpose)
+  nominee_change_days: 45          # nominee changed this recently before a death claim
+  nominee_consent_days: 90         # a nominee consent form is required for changes this recent
+  doc_date_gap_days: 7             # death date differs between claim form and certificate
+  prior_overlap_items: 2           # claimed damage already seen in an earlier inspection
+  non_disclosure_days: 90          # claim this soon after the policy started
+  early_death_days: 180
+  ring_unrelated_min: 3            # unrelated customers paid to the same account within 90 days
+  shared_payout_min_for_registration: 2
+  cover_vs_income_ratio: {term: 30, health: 20, motor: 20}

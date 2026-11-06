@@ -1,0 +1,9 @@
+case_id,claim_id,scenario,kind,split,expected,label_band,expected_indicators,expected_absent,expected_missing,area_high,hotspot_pin,gender,predicted,trust,fired,dropped,predicted_missing,n_reasons,error,latency_ms,tokens,cost_usd,tool_calls,loop_guard,proposed,verifier_removed,explainer_ok,agent_missing
+HARD-0001,CLM-002174,D1,honest,dev,green,green,,,,False,False,F,green,0.892,BILL_OUTLIER_VS_PEERS,,,1,,24750,24673,0.05424,5,False,BILL_OUTLIER_VS_PEERS,,True,
+HARD-0002,CLM-002175,D1,suspicious,dev,red,red,BILL_OUTLIER_VS_PEERS,,,False,False,M,red,0.253,BILL_OUTLIER_VS_PEERS,,,1,,26839,25846,0.05464,5,False,BILL_OUTLIER_VS_PEERS,,True,
+HARD-0003,CLM-002176,D1,honest,dev,green,green,,,,False,False,F,green,0.865,BILL_OUTLIER_VS_PEERS,,,1,,24567,24651,0.05399,5,False,BILL_OUTLIER_VS_PEERS,,True,
+HARD-0008,CLM-002181,D1,suspicious,dev,red,red,BILL_OUTLIER_VS_PEERS,,,True,True,M,red,0.1627,BILL_OUTLIER_VS_PEERS;HIGH_FRAUD_AREA,,,2,,27575,26535,0.05578,6,False,BILL_OUTLIER_VS_PEERS;HIGH_FRAUD_AREA,,False,
+HARD-0041,CLM-002214,D2,honest,dev,green,green,,BILL_OUTLIER_VS_PEERS,,False,False,F,green,1.0,,,,1,,6708,20531,0.00241,3,False,,,True,
+HARD-0042,CLM-002215,D2,suspicious,dev,amber,amber,BILL_OUTLIER_VS_PEERS,,,False,False,F,green,1.0,,,,1,,7373,22067,0.04855,3,False,,,True,
+HARD-0043,CLM-002216,D2,suspicious,dev,amber,amber,BILL_OUTLIER_VS_PEERS,,,False,False,M,green,1.0,,,,1,,6382,21985,0.04784,3,False,,,True,
+HARD-0046,CLM-002219,D2,honest,dev,green,green,,BILL_OUTLIER_VS_PEERS,,False,False,M,green,1.0,,,,1,,6234,21929,0.04761,3,False,,,True,

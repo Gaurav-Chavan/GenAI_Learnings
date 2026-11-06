@@ -1,0 +1,4 @@
+case_id,claim_id,scenario,kind,split,expected,label_band,expected_indicators,expected_absent,expected_missing,area_high,hotspot_pin,gender,predicted,trust,fired,dropped,predicted_missing,n_reasons,error,latency_ms,tokens,cost_usd,tool_calls,loop_guard,proposed,verifier_removed,explainer_ok,agent_missing
+CASE-0001,CLM-001649,H1,honest,dev,green,green,,DUPLICATE_CLAIM,,False,False,F,green,1.0,,,,1,,21725,19903,0.04385,3,False,,,True,
+CASE-0003,CLM-001653,H1,suspicious,dev,red,red,DUPLICATE_CLAIM,,,False,False,M,red,0.29,DUPLICATE_CLAIM,,,1,,14389,21045,0.00293,3,False,DUPLICATE_CLAIM,,True,
+CASE-0005,CLM-001657,H1,missing,dev,amber,amber,,,original_bill,False,True,M,amber,0.8,,,bill,1,,7578,19059,0.00231,4,False,,,True,bill
