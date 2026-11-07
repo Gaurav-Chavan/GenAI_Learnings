@@ -1,0 +1,24 @@
+[project]
+name = "competitor-analysis-agent"
+version = "0.1.0"
+description = "Week 3 Project 3A: multi-agent competitor analysis with LangGraph"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "langgraph>=1.2,<2",
+    "langchain>=1.4,<2",
+    "langchain-openai>=1.7,<2",
+    "langchain-tavily>=0.2.18",
+    "langgraph-checkpoint-sqlite>=3.1,<4",
+    "streamlit>=1.66,<2",
+    "pydantic>=2.14,<3",
+    "python-dotenv>=1.2,<2",
+    "langchain-anthropic>=1.7.10",
+    "truststore>=0.10.5",
+]
+
+[dependency-groups]
+dev = ["pytest>=9.2,<10"]
+
+[tool.uv]
+package = false  # an application, not an installable library
